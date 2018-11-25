@@ -23,14 +23,36 @@ void	create_vm(t_vm **vm)
 	}
 }
 
+void	write_hex(unsigned char c)
+{
+	unsigned char a;
+	unsigned char b;
+
+	a = c % 16;
+	b = (c / 16) % 16;
+	if (b > 9)
+		ft_printf("%c", b - 10 + 'a');
+	else
+		ft_printf("%c", b + '0');
+	if (a > 9)
+		ft_printf("%c", a - 10 + 'a');
+	else
+		ft_printf("%c", a + '0');
+}
+
 void	create_player(t_player **p, char *filename)
 {
 	int		fd;
 	int		i;
-	char	c;
+	unsigned char	c[1];
 	char	r;
 
-	if ((fd = open(filename, O_RDONLY)) == -1)
+	if ((fd = open(filename, O_RDONLY, 0)) == -1)
 		die("Error: Cannot open champion file!");
-	
+	while (read(fd, c, 1) > 0)
+	{
+		//ft_printf("%d ", *c);
+		write_hex(*c);
+		ft_printf(" ");
+	}
 }

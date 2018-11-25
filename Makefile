@@ -1,21 +1,15 @@
-NAME	=	agordiyc.filler
+NAME	=	corewar
 
 SRCS	= 	main.c \
-			filler_helper.c \
-			filler_helper2.c \
-			filler_helper3.c \
-			solver.c \
-			solver2.c \
-			solver3.c \
-			solver4.c \
-			solver5.c
+			vm_initializer.c \
+			helper.c
 
 OBJS	=	$(SRCS:.c=.o)
 
 all: $(NAME)
 
 %.o : %.c
-	@gcc -Wall -Wextra -Werror -c $< -o $@
+	@gcc -Wall -Wextra -c $< -o $@
 
 $(NAME): libft $(OBJS)
 	@gcc -o $(NAME) $(OBJS) libft/libft.a

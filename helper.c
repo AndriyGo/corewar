@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "corewarVM.h"
 
 void	die(char *s)
 {
