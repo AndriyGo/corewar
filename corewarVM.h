@@ -14,7 +14,7 @@ typedef	struct 			s_process
 	int					*regs;
 	int					pc;
 	struct s_process	*next;
-	struct s_vm				*vm;
+	struct s_vm			*vm;
 }						t_process;
 
 typedef struct			s_player
@@ -23,6 +23,8 @@ typedef struct			s_player
 	int					lives;
 	int					idx;
 	char				*name;
+	char				*comment;
+	char				*instructions;
 	struct s_player		*next;
 	struct s_vm				*vm;
 }						t_player;
@@ -38,6 +40,8 @@ typedef	struct			s_vm
 {
 	int					cycle;
 	int					cycle_to_die;
+	char				visual_mode;
+	char				nbr_cycles;
 	t_map_cell			**mem;
 	t_process			*process;
 	t_player			*player;
@@ -45,5 +49,14 @@ typedef	struct			s_vm
 
 void					die(char *s);
 void					create_vm(t_vm **vm);
+int						hex_len(unsigned int hex);
+void					validate_file(char *file);
+int						hex_to_int(char c);
+void					create_player(t_vm *vm, char *filename, int idx);
+int						player_index(int i, int argc, char **argv);
+void					read_dump(t_vm *vm, int i, int argc, char **argv);
+void					print_usage();
+int						int_from_hex(char c);
+void					dump(t_vm *vm);
 
 #endif

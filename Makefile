@@ -2,7 +2,10 @@ NAME	=	corewar
 
 SRCS	= 	main.c \
 			vm_initializer.c \
-			helper.c
+			helper.c \
+			validator1.c \
+			data_reader.c \
+			outputter1.c
 
 OBJS	=	$(SRCS:.c=.o)
 
