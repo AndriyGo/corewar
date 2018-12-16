@@ -43,3 +43,10 @@ int		int_from_hex(char c)
 	die("Error: champion binary contains invalid hex!");
 	return (-1);
 }
+
+int		next_pc(int pc, int offset)
+{
+	if (pc < MEM_SIZE - offset)
+		return (pc + offset);
+	return (pc + offset - MEM_SIZE);
+}

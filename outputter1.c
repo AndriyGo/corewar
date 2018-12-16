@@ -7,10 +7,10 @@ void	dump(t_vm *vm)
 	i = 1;
 	while (i <= MEM_SIZE)
 	{
-		ft_printf("%c", vm->mem[i - 1]->value);
+		ft_printf("%02x", vm->mem[i - 1]->value);
 		if (i % 64 == 0)
 			ft_printf("\n");
-		else if (i % 2 == 0)
+		else
 			ft_printf(" ");
 		i++;
 	}

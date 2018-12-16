@@ -6,7 +6,7 @@ void	create_vm(t_vm **vm)
 
 	if ((*vm = ft_memalloc(sizeof(t_vm))) == NULL)
 		die("Error: Out of memory!");
-	(*vm)->cycle = -1;
+	(*vm)->cycle = 0;
 	(*vm)->cycle_to_die = CYCLE_TO_DIE;
 	(*vm)->process = NULL;
 	(*vm)->player = NULL;
@@ -18,7 +18,7 @@ void	create_vm(t_vm **vm)
 	{
 		if (((*vm)->mem[i] = ft_memalloc(sizeof(t_map_cell))) == NULL)
 			die("Error: Out of memory!");
-		(*vm)->mem[i]->value = '0';
+		(*vm)->mem[i]->value = 0;
 		(*vm)->mem[i]->last_update = 0;
 		(*vm)->mem[i++]->player = NULL;
 	}

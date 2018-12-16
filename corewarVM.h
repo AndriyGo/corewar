@@ -13,6 +13,9 @@ typedef	struct 			s_process
 	char				carry;
 	int					*regs;
 	int					pc;
+	int					delay;
+	int					live;
+	unsigned char		inst;
 	struct s_process	*next;
 	struct s_vm			*vm;
 }						t_process;
@@ -58,5 +61,8 @@ void					read_dump(t_vm *vm, int i, int argc, char **argv);
 void					print_usage();
 int						int_from_hex(char c);
 void					dump(t_vm *vm);
+void					add_process(t_vm *vm, int pc);
+int						next_pc(int pc, int offset);
+void					tik_process(t_process *pr);
 
 #endif
