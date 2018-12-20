@@ -8,18 +8,6 @@
 
 struct					s_vm;
 
-typedef	struct 			s_process
-{
-	char				carry;
-	int					*regs;
-	int					pc;
-	int					delay;
-	int					live;
-	unsigned char		inst;
-	struct s_process	*next;
-	struct s_vm			*vm;
-}						t_process;
-
 typedef struct			s_player
 {
 	int					last_live;
@@ -29,8 +17,31 @@ typedef struct			s_player
 	char				*comment;
 	char				*instructions;
 	struct s_player		*next;
-	struct s_vm				*vm;
+	struct s_vm			*vm;
 }						t_player;
+
+typedef	struct 			s_process
+{
+	char				carry;
+	int					*reg;
+	int					pc;
+	int					delay;
+	int					live;
+	int					l_size;
+	unsigned char		inst;
+	struct s_process	*next;
+	struct s_vm			*vm;
+	struct s_player		*player;
+}						t_process;
+
+typedef struct			s_codage
+{
+	int					*type;
+	int					*value;
+	int					*raw_value;
+	int					valid;
+	int					to_skip;
+}						t_codage;
 
 typedef struct			s_map_cell
 {
@@ -61,8 +72,29 @@ void					read_dump(t_vm *vm, int i, int argc, char **argv);
 void					print_usage();
 int						int_from_hex(char c);
 void					dump(t_vm *vm);
-void					add_process(t_vm *vm, int pc);
+void					add_process(t_vm *vm, int pc, t_player *player);
 int						next_pc(int pc, int offset);
 void					tik_process(t_process *pr);
+unsigned int			read_bytes(t_vm *vm, int pc, unsigned int n_bytes);
+void					copy_process(t_vm *vm, t_process *ref);
+t_codage				*read_codage(t_vm *vm, t_process *process, int nf);
+void					dump_to_mem(t_process *pr, int len, int val, int idx);
+void					ex_live(t_process *pr);
+void					ex_lfork(t_process *pr);
+void					ex_zjmp(t_process *pr);
+void					ex_fork(t_process *pr);
+void					ex_load(t_process *pr);
+void					ex_st(t_process *pr);
+void					ex_add(t_process *pr);
+void					ex_sub(t_process *pr);
+void					ex_and(t_process *pr);
+void					ex_or(t_process *pr);
+void					ex_xor(t_process *pr);
+void					ex_ldi(t_process *pr);
+void					ex_sti(t_process *pr);
+void					ex_lld(t_process *pr);
+void					ex_lldi(t_process *pr);
+void					ex_aff(t_process *pr);
+void					ex_lfork(t_process *pr);
 
 #endif

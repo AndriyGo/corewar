@@ -3,11 +3,15 @@ NAME	=	corewar
 SRCS	= 	main.c \
 			vm_initializer1.c \
 			vm_initializer2.c \
-			helper.c \
+			helper1.c \
+			helper2.c \
 			validator1.c \
 			data_reader.c \
 			outputter1.c \
-			game1.c
+			game1.c \
+			game2.c \
+			game3.c \
+			game4.c
 
 OBJS	=	$(SRCS:.c=.o)
 

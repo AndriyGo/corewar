@@ -101,7 +101,7 @@ void	start_game(t_vm *vm)
 			vm->mem[i + (c / 2) + (c % 2)]->value = hex_to_int(tmp->instructions[c]) * 16 + hex_to_int(tmp->instructions[c+1]);
 			c++;
 		}
-		add_process(vm, i);
+		add_process(vm, i, tmp);
 		i += l;
 		tmp = tmp->next;
 	}
