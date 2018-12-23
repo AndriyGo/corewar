@@ -54,7 +54,7 @@ static void draw_map(t_vm *vm)
 			if (vm->mem[j]->last_update > 0)
 			{
 				vm->mem[j]->last_update--;
-				attron(A_BOLD);
+				attron(A_BOLD | COLOR_PAIR(12));
 			}
 			mvprintw(n, i, "%02x", vm->mem[j]->value);
 			if (vm->mem[j]->player != NULL)
