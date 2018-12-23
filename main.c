@@ -70,6 +70,47 @@ void	sort_players(t_vm *vm)
 	} 
 }
 
+void	remove_dead_p(t_vm *vm)
+{
+	t_process	*tmp;
+	t_process	*prev;
+
+	prev = NULL;
+	tmp = vm->process;
+	while (tmp)
+	{
+		if (tmp->live == 0)
+		{
+			if (prev == NULL)
+				vm->process = tmp->next;
+			else
+			{
+				tmp = tmp->next;
+				free(prev->next);
+				prev->next = tmp;
+			}
+		}
+		else
+			tmp->live = 0;
+	}
+}
+
+void	decrease_cycle_to_die(t_vm *vm)
+{
+	t_player	*p;
+	int			decrease;
+
+	p = vm->player;
+	decrease = 0;
+	while (p)
+	{
+		if (p->lives >= NBR_LIVE)
+			vm->cycle_to_die -= CYCLE_DELTA;
+		p->lives = 0;
+		p = p->next;
+	}
+}
+
 void	game_move(t_vm *vm)
 {
 	t_process	*tmp;
@@ -80,14 +121,16 @@ void	game_move(t_vm *vm)
 	tmp = vm->process;
 	while (tmp)
 	{
-		if (vm->visual_mode == 1)
-			visualization(vm);
 		tik_process(tmp);
 		tmp = tmp->next;
 	}
 	if (vm->visual_mode == 1)
-		endwin();
-	ft_printf("SHOW MUST GO ON!\n");
+		visualization(vm);
+	if (vm->cycle == vm->cycle_to_die)
+	{
+		remove_dead_p(vm);
+		decrease_cycle_to_die(vm);
+	}
 }
 
 void	start_game(t_vm *vm)
@@ -119,7 +162,8 @@ void	start_game(t_vm *vm)
 	}
 	if (vm->visual_mode == 1)
 		initiate_visualization(vm);
-	game_move(vm);
+	while (1)
+		game_move(vm);
 }
 
 int		main(int argc, char **argv)

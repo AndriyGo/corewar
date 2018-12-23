@@ -78,6 +78,7 @@ void	ex_sti(t_process *pr)
 
 	pr->l_size = 2;
 	codage = read_codage(pr->vm, pr, 3);
+	//ft_printf("%d %d\n%d %d\n %d %d!\n", codage->raw_value[0], codage->value[0], codage->raw_value[1], codage->value[1], codage->raw_value[2], codage->value[2]);
 	if ((codage->valid == 1) && (codage->type[2] != T_IND) && \
 		(codage->type[0] == T_REG))
 	{
