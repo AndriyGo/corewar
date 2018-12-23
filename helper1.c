@@ -46,5 +46,9 @@ int		int_from_hex(char c)
 
 int		next_pc(int pc, int offset)
 {
-	return ((pc + offset) % MEM_SIZE);
+	int ret;
+	ret = pc + offset;
+	while (ret < 0)
+		ret += MEM_SIZE;
+	return ((ret) % MEM_SIZE);
 }

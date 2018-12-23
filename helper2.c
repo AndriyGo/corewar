@@ -9,7 +9,9 @@ unsigned int	read_bytes(t_vm *vm, int pc, unsigned int n_bytes)
 	res = 0;
 	while (i < n_bytes)
 	{
-		res = res * 16 * 16 + vm->mem[next_pc(pc, i++)]->value;
+		ft_printf("%d\n", vm->mem[next_pc(pc, i++)]->value);
+		res = res * 16 * 16 + vm->mem[next_pc(pc, i)]->value;
+		i++;
 	}
 	if (n_bytes == 1)
 		res = (unsigned int)((unsigned char)res);

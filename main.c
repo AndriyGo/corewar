@@ -82,7 +82,11 @@ void	remove_dead_p(t_vm *vm)
 		if (tmp->live == 0)
 		{
 			if (prev == NULL)
+			{
 				vm->process = tmp->next;
+				free(tmp);
+				tmp = vm->process;
+			}
 			else
 			{
 				tmp = tmp->next;
@@ -91,7 +95,11 @@ void	remove_dead_p(t_vm *vm)
 			}
 		}
 		else
+		{
 			tmp->live = 0;
+			prev = tmp;
+			tmp = tmp->next;
+		}
 	}
 	vm->game_on = (vm->process != NULL);
 }
@@ -122,8 +130,12 @@ void	game_move(t_vm *vm)
 	t_process	*tmp;
 
 	if (vm->cycle == vm->nbr_cycles)
+	{
 		dump(vm);
+		exit(1);
+	}
 	vm->cycle += 1;
+	vm->cycle_ += 1;
 	tmp = vm->process;
 	while (tmp)
 	{
@@ -132,11 +144,14 @@ void	game_move(t_vm *vm)
 	}
 	if (vm->visual_mode == 1)
 		visualization(vm);
-	if (vm->cycle == vm->cycle_to_die)
+	if (vm->cycle_ == vm->cycle_to_die)
 	{
+		ft_printf("CHECK TIME!!!\n");
 		remove_dead_p(vm);
 		vm->checks += 1;
 		decrease_cycle_to_die(vm);
+		ft_printf("GAME ON: %d\n", vm->game_on);
+		vm->cycle_ = 0;
 	}
 }
 

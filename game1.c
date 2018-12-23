@@ -42,7 +42,7 @@ void	tik_process2(t_process *pr)
 		ex_lldi(pr);
 	else if (pr->inst == 15)
 		ex_lfork(pr);
-	else if (pr->inst == 1)
+	else if (pr->inst == 16)
 		ex_aff(pr);
 }
 
@@ -52,8 +52,9 @@ void	tik_process(t_process *pr)
 		load_instruction(pr);
 	else if (pr->delay > 0)
 		pr->delay = pr->delay - 1;
-	if (pr->delay != 0)
+	if (pr->delay != 0 || pr->inst == 0)
 		return ;
+	ft_printf("%d: executing %d\n", pr->vm->cycle, pr->inst);
 	if (pr->inst == 1)
 		ex_live(pr);
 	else if (pr->inst == 2)

@@ -15,7 +15,6 @@ typedef struct			s_player
 	int					last_live;
 	int					lives;
 	int					idx;
-	int					n;
 	char				*name;
 	char				*comment;
 	char				*instructions;
@@ -56,6 +55,7 @@ typedef struct			s_map_cell
 typedef	struct			s_vm
 {
 	int					cycle;
+	int					cycle_;
 	int					cycle_to_die;
 	int				 	checks;
 	int					game_on;
