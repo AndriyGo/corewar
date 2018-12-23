@@ -11,6 +11,7 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	i = 0;
 	while (i < REG_NUMBER)
 		process->reg[i++] = 0;
+	process->reg[0] = player->idx;
 	process->pc = pc;
 	process->carry = 0;
 	process->delay = 0;

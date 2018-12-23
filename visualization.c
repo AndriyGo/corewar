@@ -50,7 +50,7 @@ static void draw_map(t_vm *vm)
 		while (i <= 192)
 		{
 			if (vm->mem[j]->player != NULL)
-				attron(COLOR_PAIR(vm->mem[j]->player->n));
+				attron(COLOR_PAIR(vm->mem[j]->player->idx * (-1)));
 			if (vm->mem[j]->last_update > 0)
 			{
 				vm->mem[j]->last_update--;
@@ -58,7 +58,7 @@ static void draw_map(t_vm *vm)
 			}
 			mvprintw(n, i, "%02x", vm->mem[j]->value);
 			if (vm->mem[j]->player != NULL)
-				attroff(COLOR_PAIR(vm->mem[j]->player->n) | A_BOLD);
+				attroff(COLOR_PAIR(vm->mem[j]->player->idx * (-1)) | A_BOLD);
 			i += 3;
 			j++;
 		}
@@ -76,7 +76,7 @@ static void	draw_carrys(t_vm *vm)
 		if (vm->mem[tmp->pc]->player == NULL)
 			attron(COLOR_PAIR(5) | A_BOLD);
 		else
-			attron(COLOR_PAIR(vm->mem[tmp->pc]->player->n + 5));
+			attron(COLOR_PAIR(vm->mem[tmp->pc]->player->idx * (-1) + 5));
 		int x = tmp->pc / 64 + 2;
 		int y = tmp->pc % 64 * 3 + 3;
 		// fprintf(stderr, "%d\n", tmp->pc);
@@ -84,7 +84,7 @@ static void	draw_carrys(t_vm *vm)
 		if (vm->mem[tmp->pc]->player == NULL)
 			attroff(COLOR_PAIR(5));
 		else
-			attroff(COLOR_PAIR(vm->mem[tmp->pc]->player->n + 5));
+			attroff(COLOR_PAIR(vm->mem[tmp->pc]->player->idx * (-1) + 5));
 		tmp = tmp->next;
 	}
 }

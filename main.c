@@ -61,11 +61,11 @@ void	sort_players(t_vm *vm)
 		else
 			tmp = tmp->next;
 	}
-	int n = 1;
+	i = -1;
 	tmp = vm->player;
 	while (tmp != NULL)
 	{
-		tmp->n = n++;
+		tmp->idx = i--;
 		tmp = tmp->next;
 	} 
 }
