@@ -25,10 +25,9 @@ void			dump_to_mem(t_process *pr, int len, int val, int idx)
 	i = 0;
 	while (i < len)
 	{
-		pr->vm->mem[next_pc(idx, i)]->value = (val >> (6 - i * 2));
+		pr->vm->mem[next_pc(idx, i)]->value = ((val & 255 << ((8) * (len - i - 1))) >> (8) * (len - i - 1));
 		pr->vm->mem[next_pc(idx, i)]->player = pr->player;
 		pr->vm->mem[next_pc(idx, i)]->last_update = 50;
-		val -= ((val >> (6 - i * 2)) << (6 - i * 2));
 		i++;
 	}
 }

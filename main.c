@@ -93,6 +93,7 @@ void	remove_dead_p(t_vm *vm)
 		else
 			tmp->live = 0;
 	}
+	vm->game_on = (vm->process != NULL);
 }
 
 void	decrease_cycle_to_die(t_vm *vm)
@@ -100,12 +101,17 @@ void	decrease_cycle_to_die(t_vm *vm)
 	t_player	*p;
 	int			decrease;
 
+	if (vm->checks == MAX_CHECKS)
+	{
+		vm->checks = 0;
+		vm->cycle_to_die -= CYCLE_DELTA;
+	}
 	p = vm->player;
 	decrease = 0;
 	while (p)
 	{
 		if (p->lives >= NBR_LIVE)
-			vm->cycle_to_die -= CYCLE_DELTA;
+			vm->cycle_to_die = (vm->checks == 0) ? vm->cycle_to_die: vm->cycle_to_die - CYCLE_DELTA;
 		p->lives = 0;
 		p = p->next;
 	}
@@ -129,6 +135,7 @@ void	game_move(t_vm *vm)
 	if (vm->cycle == vm->cycle_to_die)
 	{
 		remove_dead_p(vm);
+		vm->checks += 1;
 		decrease_cycle_to_die(vm);
 	}
 }
@@ -162,7 +169,7 @@ void	start_game(t_vm *vm)
 	}
 	if (vm->visual_mode == 1)
 		initiate_visualization(vm);
-	while (1)
+	while (vm->game_on == 1)
 		game_move(vm);
 }
 

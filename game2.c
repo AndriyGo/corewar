@@ -2,11 +2,11 @@
 
 void	ex_fork(t_process *pr)
 {
-	unsigned int	value;
+	short	value;
 
 	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 	copy_process(pr->vm, pr);
-	pr->vm->process->pc = value % IDX_MOD;
+	pr->vm->process->pc = next_pc(pr->pc, value % IDX_MOD);
 	pr->pc = next_pc(pr->pc, 3);
 }
 
@@ -20,7 +20,7 @@ void	ex_load(t_process *pr)
 		(codage->type[0] == T_IND)) && (codage->type[1] == T_REG))
 	{
 		pr->reg[codage->raw_value[1]] = codage->value[0];
-		pr->carry = (pr->carry + 1) % 2;
+		pr->carry = (pr->reg[codage->raw_value[1]] == 0);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 	free(codage->type);
@@ -60,7 +60,7 @@ void	ex_add(t_process *pr)
 		(codage->type[1] == T_REG) && (codage->type[2] == T_REG))
 	{
 		pr->reg[codage->raw_value[2]] = codage->value[0] + codage->value[1];
-		pr->carry = (pr->carry + 1) % 2;
+		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 	free(codage->type);
@@ -79,7 +79,7 @@ void	ex_sub(t_process *pr)
 		(codage->type[1] == T_REG) && (codage->type[2] == T_REG))
 	{
 		pr->reg[codage->raw_value[2]] = codage->value[0] - codage->value[1];
-		pr->carry = (pr->carry + 1) % 2;
+		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 	free(codage->type);

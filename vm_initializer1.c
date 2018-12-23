@@ -11,6 +11,8 @@ void	create_vm(t_vm **vm)
 	(*vm)->process = NULL;
 	(*vm)->player = NULL;
 	(*vm)->nbr_cycles = -1;
+	(*vm)->checks = 0;
+	(*vm)->game_on = 1;
 	if (((*vm)->mem = ft_memalloc(MEM_SIZE * sizeof(t_map_cell *))) == NULL)
 		die("Error: Out of memory!");
 	i = 0;
@@ -82,7 +84,7 @@ void	add_player(t_vm *vm, char *file, int idx)
 		die("Error: Out of memory!");
 	p->idx = idx;
 	p->lives = 0;
-	p->last_live = -1;
+	p->last_live = 0;
 	if (vm->player == NULL)
 		vm->player = p;
 	else

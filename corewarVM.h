@@ -57,6 +57,8 @@ typedef	struct			s_vm
 {
 	int					cycle;
 	int					cycle_to_die;
+	int				 	checks;
+	int					game_on;
 	char				visual_mode;
 	char				nbr_cycles;
 	t_map_cell			**mem;

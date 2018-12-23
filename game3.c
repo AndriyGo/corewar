@@ -9,7 +9,7 @@ void	ex_and(t_process *pr)
 	if ((codage->valid == 1) && (codage->type[2] == T_REG))
 	{
 		pr->reg[codage->raw_value[2]] = codage->value[0] & codage->value[1];
-		pr->carry = (pr->carry + 1) % 2;
+		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 	free(codage->type);
@@ -27,7 +27,7 @@ void	ex_or(t_process *pr)
 	if ((codage->valid == 1) && (codage->type[2] == T_REG))
 	{
 		pr->reg[codage->raw_value[2]] = codage->value[0] | codage->value[1];
-		pr->carry = (pr->carry + 1) % 2;
+		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 	free(codage->type);
@@ -45,7 +45,7 @@ void	ex_xor(t_process *pr)
 	if ((codage->valid == 1) && (codage->type[2] == T_REG))
 	{
 		pr->reg[codage->raw_value[2]] = codage->value[0] ^ codage->value[1];
-		pr->carry = (pr->carry + 1) % 2;
+		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 	free(codage->type);
