@@ -3,35 +3,6 @@
 # define Y_2 57
 # define X_1 67
 
-// void	die(char *s)
-// {
-// 	printf("%s", s);
-// 	exit(-1);
-// }
-
-
-// int main()
-// {
-// int num = 3;
-// 	t_vm **vm;
-// 	if ((*vm = ft_memalloc(sizeof(t_vm))) == NULL)
-// 		die("Error: Out of memory!");
-// 	(*vm)->cycle = 5;
-// 	(*vm)->max_checks = 13;
-// 	(*vm)->proc = 5;
-// 	(*vm)->player[num].name = "Julia";
-// 	// // vm->cycle_to_die = 5;
-// 	// (*vm)->process = NULL;
-// 	// (*vm)->player = NULL;
-// 	(*vm)->player[num].idx = 7;
-// 	(*vm)->player[num].last_live = 5;
-// 	(*vm)->player[num].lives = 12;
-// 	(*vm)->nbr_live = 14;
-
-// 	visualization(*vm);
-
-// }
-
 static void	ft_colors(void)
 {
 	start_color();
@@ -79,7 +50,12 @@ static void draw_map(t_vm *vm)
 		while (i <= 192)
 		{
 			if (vm->mem[j]->player != NULL)
-				attron(COLOR_PAIR(vm->mem[j]->player->n) | A_BOLD);
+				attron(COLOR_PAIR(vm->mem[j]->player->n));
+			if (vm->mem[j]->last_update > 0)
+			{
+				vm->mem[j]->last_update--;
+				attron(A_BOLD);
+			}
 			mvprintw(n, i, "%02x", vm->mem[j]->value);
 			if (vm->mem[j]->player != NULL)
 				attroff(COLOR_PAIR(vm->mem[j]->player->n) | A_BOLD);
@@ -100,15 +76,15 @@ static void	draw_carrys(t_vm *vm)
 		if (vm->mem[tmp->pc]->player == NULL)
 			attron(COLOR_PAIR(5) | A_BOLD);
 		else
-			attron(COLOR_PAIR(vm->mem[tmp->pc]->player->n + 5) | A_BOLD);
+			attron(COLOR_PAIR(vm->mem[tmp->pc]->player->n + 5));
 		int x = tmp->pc / 64 + 2;
 		int y = tmp->pc % 64 * 3 + 3;
 		// fprintf(stderr, "%d\n", tmp->pc);
 		mvprintw(x, y, "%02x", vm->mem[tmp->pc]->value);
 		if (vm->mem[tmp->pc]->player == NULL)
-			attroff(COLOR_PAIR(5) | A_BOLD);
+			attroff(COLOR_PAIR(5));
 		else
-			attroff(COLOR_PAIR(vm->mem[tmp->pc]->player->n + 5) | A_BOLD);
+			attroff(COLOR_PAIR(vm->mem[tmp->pc]->player->n + 5));
 		tmp = tmp->next;
 	}
 }
