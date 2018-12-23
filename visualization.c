@@ -7,6 +7,8 @@ static void	ft_colors(void)
 {
 	start_color();
 	// init_pair(0, COLOR_GREEN, COLOR_BLACK);
+	init_color(COLOR_WHITE, 400, 400, 400);
+	init_color(COLOR_MAGENTA, 1000, 1000, 1000);
 	init_pair(1, COLOR_BLUE, COLOR_BLACK);
 	init_pair(2, COLOR_RED, COLOR_BLACK);
 	init_pair(3, COLOR_GREEN, COLOR_BLACK);
@@ -16,24 +18,21 @@ static void	ft_colors(void)
 	init_pair(7, COLOR_BLACK, COLOR_RED);
 	init_pair(8, COLOR_BLACK, COLOR_GREEN);
 	init_pair(9, COLOR_BLACK, COLOR_CYAN);
-	// init_pair(5, COLOR_BLACK, COLOR_RED);
-	// init_pair(6, COLOR_BLACK, COLOR_CYAN);
-	// init_pair(7, COLOR_WHITE, COLOR_GREEN);
-	// init_pair(8, COLOR_WHITE, COLOR_BLUE);
-	// init_pair(9, COLOR_WHITE, COLOR_RED);
-	// init_pair(10, COLOR_WHITE, COLOR_CYAN);
+	init_pair(16, COLOR_MAGENTA, COLOR_BLUE);
+	init_pair(17, COLOR_MAGENTA, COLOR_RED);
+	init_pair(18, COLOR_MAGENTA, COLOR_GREEN);
+	init_pair(19, COLOR_MAGENTA, COLOR_CYAN);
 	init_pair(11, COLOR_WHITE, COLOR_WHITE);
 	init_pair(12, COLOR_WHITE, COLOR_BLACK);
-	init_color(COLOR_WHITE, 400, 400, 400);
 }
 
 void	initiate_visualization(t_vm *vm)
 {
+
 	(void)vm;
 	initscr();
 	curs_set(0);
 	ft_colors();
-
 }
 
 static void draw_map(t_vm *vm)
@@ -54,7 +53,7 @@ static void draw_map(t_vm *vm)
 			if (vm->mem[j]->last_update > 0)
 			{
 				vm->mem[j]->last_update--;
-				attron(A_BOLD | COLOR_PAIR(12));
+				attron(A_BOLD);
 			}
 			mvprintw(n, i, "%02x", vm->mem[j]->value);
 			if (vm->mem[j]->player != NULL)
@@ -89,6 +88,25 @@ static void	draw_carrys(t_vm *vm)
 	}
 }
 
+int		print_players(t_player *players)
+{
+	int j;
+
+	j = 11;
+	while (players)
+	{
+		mvprintw(j, Y_1 + 3, "Player %d :", players->idx);
+		attron(COLOR_PAIR(-players->idx));
+		mvprintw(j, Y_1 + 15, "%s", players->name);
+		attroff(COLOR_PAIR(-players->idx));
+		mvprintw(j + 1, Y_1 + 6, "Last live : % 21d", players->last_live);
+		mvprintw(j + 2, Y_1 + 6, "Lives in current period : % 7d", players->lives);
+		j += 4;
+		players = players->next;
+	}
+	return j;
+}
+
 void	visualization(t_vm *vm)
 {
 	int i;
@@ -96,9 +114,6 @@ void	visualization(t_vm *vm)
 	int		num;
 
 	i = 0;
-	// initscr();
-	// start_color();
-	// ft_colors();
 	attron(COLOR_PAIR(11));
 	i = 67;
 	while (i >= 0)
@@ -121,18 +136,8 @@ void	visualization(t_vm *vm)
 	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d", 50);
 	mvprintw(7, Y_1 + 3, "Cycle : %d", (vm)->cycle);
 	// mvprintw(9, Y_1 + 3, "Processes : %d", (vm)->proc);
-	j = 11;
-	num = 3;
-	while (j < 23)
-	{
-		// mvprintw(j, Y_1 + 3, "Player -%d : ", (vm)->player[num].idx);
-		color_set(num + 1, NULL);
-		// printw("%s", (vm)->player[num].name);
-		color_set(12, NULL);
-		// mvprintw(++j, Y_1 + 5, "Last live : %23d", (vm)->player[num].last_live);
-		// mvprintw(++j, Y_1 + 5, "Lives in current period : %9d", (vm)->player[num].lives);
-		j += 2;
-	}
+
+	j = print_players(vm->player);
 	num = 0;
 	mvprintw(j, Y_1 + 3, "Live breakdown for current period :");
 	mvprintw(j + 3, Y_1 + 3, "Live breakdown for last period :");
@@ -149,10 +154,10 @@ void	visualization(t_vm *vm)
 	mvprintw(j + 1, Y_1 + 3 + num, "]");
 	mvprintw(j + 4, Y_1 + 3 + num, "]");
 	color_set(12, NULL);
-	mvprintw(j + 6, Y_1 + 3, "CYCLE_TO_DIE : %d", (vm)->cycle_to_die);
-	// mvprintw(j + 8, Y_1 + 3, "CYCLE_DELTA : %d", (vm)->cycle_delta);
-	// mvprintw(j + 10, Y_1 + 3, "NBR_LIVE : %d", (vm)->nbr_live);
-	// mvprintw(j + 12, Y_1 + 3, "MAX_CHECKS : %d", (vm)->max_checks);
+	mvprintw(j + 6, Y_1 + 3, "CYCLE_TO_DIE : %d", CYCLE_TO_DIE);
+	mvprintw(j + 8, Y_1 + 3, "CYCLE_DELTA : %d", CYCLE_DELTA);
+	mvprintw(j + 10, Y_1 + 3, "NBR_LIVE : %d", NBR_LIVE);
+	mvprintw(j + 12, Y_1 + 3, "MAX_CHECKS : %d", MAX_CHECKS);
 	attroff(A_BOLD);
 
 	draw_map(vm);
