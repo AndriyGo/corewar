@@ -181,6 +181,12 @@ void	visualization(t_vm *vm)
 
 	draw_map(vm);
 	draw_carrys(vm);
+	refresh();
 
-	getch();
+	char c = getch();
+	if (c == 27)
+	{
+		endwin();
+		exit(0);
+	}
 }
