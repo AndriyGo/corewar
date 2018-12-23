@@ -5,6 +5,8 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/stat.h>
+# include <unistd.h> //////////////////////////// added by Julia
+# include <ncurses.h> ///////////
 
 struct					s_vm;
 
@@ -13,6 +15,7 @@ typedef struct			s_player
 	int					last_live;
 	int					lives;
 	int					idx;
+	int					n;
 	char				*name;
 	char				*comment;
 	char				*instructions;
@@ -96,5 +99,8 @@ void					ex_lld(t_process *pr);
 void					ex_lldi(t_process *pr);
 void					ex_aff(t_process *pr);
 void					ex_lfork(t_process *pr);
+
+void					initiate_visualization(t_vm *vm); //////////////////////////// added by Julia
+void					visualization(t_vm *vm);
 
 #endif

@@ -61,6 +61,13 @@ void	sort_players(t_vm *vm)
 		else
 			tmp = tmp->next;
 	}
+	int n = 1;
+	tmp = vm->player;
+	while (tmp != NULL)
+	{
+		tmp->n = n++;
+		tmp = tmp->next;
+	} 
 }
 
 void	game_move(t_vm *vm)
@@ -73,9 +80,13 @@ void	game_move(t_vm *vm)
 	tmp = vm->process;
 	while (tmp)
 	{
+		if (vm->visual_mode == 1)
+			visualization(vm);
 		tik_process(tmp);
 		tmp = tmp->next;
 	}
+	if (vm->visual_mode == 1)
+		endwin();
 	ft_printf("SHOW MUST GO ON!\n");
 }
 
@@ -99,12 +110,15 @@ void	start_game(t_vm *vm)
 		while (tmp->instructions[++c])
 		{
 			vm->mem[i + (c / 2) + (c % 2)]->value = hex_to_int(tmp->instructions[c]) * 16 + hex_to_int(tmp->instructions[c+1]);
+			vm->mem[i + (c / 2) + (c % 2)]->player = tmp;
 			c++;
 		}
 		add_process(vm, i, tmp);
 		i += l;
 		tmp = tmp->next;
 	}
+	if (vm->visual_mode == 1)
+		initiate_visualization(vm);
 	game_move(vm);
 }
 

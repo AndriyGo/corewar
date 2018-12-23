@@ -11,7 +11,8 @@ SRCS	= 	main.c \
 			game1.c \
 			game2.c \
 			game3.c \
-			game4.c
+			game4.c \
+			visualization.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -21,7 +22,7 @@ all: $(NAME)
 	@gcc -Wall -Wextra -c $< -o $@
 
 $(NAME): libft $(OBJS)
-	@gcc -o $(NAME) $(OBJS) libft/libft.a
+	@gcc -lncurses -o $(NAME) $(OBJS) libft/libft.a
 
 .PHONY: libft
 libft:
