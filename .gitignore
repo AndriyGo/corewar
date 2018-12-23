@@ -1,2 +1,4 @@
 *.DS_Store
 *.o
+corewar
+libft/libft.a
