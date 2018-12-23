@@ -73,7 +73,7 @@ void		read_codage_octal(t_codage *codage, int idx, int octal, t_process *pr)
 	if (octal == T_REG)
 	{
 		codage->raw_value[idx] = read_bytes(pr->vm, next_pc(pr->pc, codage->to_skip), 1) - 1;
-		if ((codage->value[idx] < 0) || (codage->value[idx] > 15))
+		if ((codage->raw_value[idx] < 0) || (codage->raw_value[idx] > 15))
 			codage->valid = 0;
 		codage->value[idx] = pr->reg[codage->raw_value[idx]];
 		codage->to_skip += 1;

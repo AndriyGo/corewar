@@ -9,23 +9,23 @@ void	load_instruction(t_process *pr)
 		pr->inst = 0;
 	}
 	else if ((pr->inst == 1) || (pr->inst == 4) || (pr->inst == 5) || (pr->inst == 13))
-		pr->delay = 10;
+		pr->delay = 9;
 	else if ((pr->inst == 2) || (pr->inst == 3))
-		pr->delay = 5;
+		pr->delay = 4;
 	else if ((pr->inst == 6) || (pr->inst == 7) || (pr->inst == 8))
-		pr->delay = 6;
+		pr->delay = 5;
 	else if (pr->inst == 9)
-		pr->delay = 20;
+		pr->delay = 19;
 	else if ((pr->inst == 10) || (pr->inst == 11))
-		pr->delay = 25;
+		pr->delay = 24;
 	else if (pr->inst == 12)
-		pr->delay = 800;
+		pr->delay = 799;
 	else if (pr->inst == 14)
-		pr->delay = 50;
+		pr->delay = 49;
 	else if (pr->inst == 15)
-		pr->delay = 1000;
+		pr->delay = 999;
 	else if (pr->inst == 16)
-		pr->delay = 2;
+		pr->delay = 1;
 }
 
 void	tik_process2(t_process *pr)
@@ -52,7 +52,9 @@ void	tik_process(t_process *pr)
 		load_instruction(pr);
 	else if (pr->delay > 0)
 		pr->delay = pr->delay - 1;
-	else if (pr->inst == 1)
+	if (pr->delay != 0)
+		return ;
+	if (pr->inst == 1)
 		ex_live(pr);
 	else if (pr->inst == 2)
 		ex_load(pr);
@@ -72,6 +74,7 @@ void	tik_process(t_process *pr)
 		ex_zjmp(pr);
 	else
 		tik_process2(pr);
+	pr->inst = 0;
 }
 
 void	ex_live(t_process *pr)
