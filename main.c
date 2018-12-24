@@ -75,12 +75,15 @@ void	remove_dead_p(t_vm *vm)
 	t_process	*tmp;
 	t_process	*prev;
 
+	int c = process_count(vm);
+
 	prev = NULL;
 	tmp = vm->process;
 	while (tmp)
 	{
 		if (tmp->live == 0)
 		{
+			c--;
 			if (prev == NULL)
 			{
 				vm->process = tmp->next;
@@ -101,6 +104,11 @@ void	remove_dead_p(t_vm *vm)
 			tmp = tmp->next;
 		}
 	}
+	if (c != process_count(vm))
+	{
+		ft_printf("PROCESS REMOVAL FAILURE!!!!!");
+		exit(0);
+	}
 	vm->game_on = (vm->process != NULL);
 }
 
@@ -118,8 +126,11 @@ void	decrease_cycle_to_die(t_vm *vm)
 	decrease = 0;
 	while (p)
 	{
-		if (p->lives >= NBR_LIVE)
-			vm->cycle_to_die = (vm->checks == 0) ? vm->cycle_to_die: vm->cycle_to_die - CYCLE_DELTA;
+		if ((p->lives >= NBR_LIVE) && ((vm->checks != 0)))
+		{
+			vm->cycle_to_die -= CYCLE_DELTA;
+			vm->checks = 0;
+		}
 		p->lives = 0;
 		p = p->next;
 	}
@@ -129,11 +140,7 @@ void	game_move(t_vm *vm)
 {
 	t_process	*tmp;
 
-	if (vm->cycle == vm->nbr_cycles)
-	{
-		dump(vm);
-		exit(1);
-	}
+	int p_count = process_count(vm);
 	vm->cycle += 1;
 	vm->cycle_ += 1;
 	tmp = vm->process;
@@ -142,16 +149,25 @@ void	game_move(t_vm *vm)
 		tik_process(tmp);
 		tmp = tmp->next;
 	}
-	if (vm->visual_mode == 1)
+	if (process_count(vm) != p_count)
+	{
+		//ft_printf("%d: \t%d\n", vm->cycle, process_count(vm));
+	}
+	if ((vm->visual_mode == 1) && (vm->cycle > 3900))
 		visualization(vm);
 	if (vm->cycle_ == vm->cycle_to_die)
 	{
-		ft_printf("CHECK TIME!!!\n");
+		ft_printf("%d: \t%d -> \t", vm->cycle, process_count(vm));
 		remove_dead_p(vm);
 		vm->checks += 1;
 		decrease_cycle_to_die(vm);
-		ft_printf("GAME ON: %d\n", vm->game_on);
+		ft_printf("%d GAME ON: %d\n", process_count(vm), vm->game_on);
 		vm->cycle_ = 0;
+	}
+	if (vm->cycle == vm->nbr_cycles)
+	{
+		dump(vm);
+		exit(-1);
 	}
 }
 
@@ -182,10 +198,11 @@ void	start_game(t_vm *vm)
 		i += l;
 		tmp = tmp->next;
 	}
-	if (vm->visual_mode == 1)
-		initiate_visualization(vm);
+	//if (vm->visual_mode == 1)
+		//initiate_visualization(vm);
 	while (vm->game_on == 1)
 		game_move(vm);
+	while (1);
 }
 
 int		main(int argc, char **argv)
@@ -214,5 +231,6 @@ int		main(int argc, char **argv)
 			create_player(vm, argv[i], -1);
 		i++;
 	}
+	print_intro(vm);
 	start_game(vm);
 }

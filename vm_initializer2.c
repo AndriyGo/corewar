@@ -3,6 +3,7 @@
 void		add_process(t_vm *vm, int pc, t_player *player)
 {
 	t_process	*process;
+	t_process	*tmp;
 	int			i;
 
 	if (((process = ft_memalloc(sizeof(t_process))) == NULL) || \
@@ -19,8 +20,15 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	process->vm = vm;
 	process->live = 0;
 	process->player = player;
-	process->next = vm->process;
-	vm->process = process;
+	if (vm->process == NULL)
+		vm->process = process;
+	else
+	{
+		tmp = vm->process;
+		while(tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = process;
+	}
 }
 
 void		copy_process(t_vm *vm, t_process *ref)
@@ -79,9 +87,9 @@ void		read_codage_octal(t_codage *codage, int idx, int octal, t_process *pr)
 		codage->value[idx] = pr->reg[(unsigned char)(codage->raw_value[idx])];
 		codage->to_skip += 1;
 	}
-	else if (octal == T_IND)
+	else if (octal == 3)
 	{
-		codage->raw_value[idx] = read_bytes(pr->vm, next_pc(pr->pc, codage->to_skip), 2);
+		codage->raw_value[idx] = (short)read_bytes(pr->vm, next_pc(pr->pc, codage->to_skip), 2);
 		codage->value[idx] = read_bytes(pr->vm, next_pc(pr->pc, ((short)codage->raw_value[idx]) % IDX_MOD), 4);
 		codage->to_skip += 2;
 	}
@@ -102,9 +110,10 @@ t_codage	*read_codage(t_vm *vm, t_process *process, int nf)
 	t_codage	*ret;
 	int			octal;
 
-	init_codage(&ret);
+	ret = vm->codage;
+	ret->to_skip = 2;
+	ret->valid = 1;
 	octal = read_bytes(vm, next_pc(process->pc, 1), 1);
-	ft_printf("%d %d\n", next_pc(process->pc, 1), octal);
 	read_codage_octal(ret, 0, octal >> 6, process);
 	if (nf > 1)
 		read_codage_octal(ret, 1, (octal - (octal & (3 << 6))) >> 4, process);

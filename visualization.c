@@ -134,8 +134,9 @@ void	visualization(t_vm *vm)
 	attron(COLOR_PAIR(12) | A_BOLD);
 	mvprintw(2, Y_1 + 3, "** PAUSED **");
 	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d", 50);
-	mvprintw(7, Y_1 + 3, "Cycle : %d", (vm)->cycle);
-	// mvprintw(9, Y_1 + 3, "Processes : %d", (vm)->proc);
+	mvprintw(6, Y_1 + 3, "Total cycle : %d", (vm)->cycle);
+	mvprintw(7, Y_1 + 3, "Cycle : %d", (vm)->cycle_);
+	mvprintw(9, Y_1 + 3, "Processes : %d", process_count(vm));
 
 	j = print_players(vm->player);
 	num = 0;
@@ -154,7 +155,7 @@ void	visualization(t_vm *vm)
 	mvprintw(j + 1, Y_1 + 3 + num, "]");
 	mvprintw(j + 4, Y_1 + 3 + num, "]");
 	color_set(12, NULL);
-	mvprintw(j + 6, Y_1 + 3, "CYCLE_TO_DIE : %d", CYCLE_TO_DIE);
+	mvprintw(j + 6, Y_1 + 3, "CYCLE_TO_DIE : %d", vm->cycle_to_die);
 	mvprintw(j + 8, Y_1 + 3, "CYCLE_DELTA : %d", CYCLE_DELTA);
 	mvprintw(j + 10, Y_1 + 3, "NBR_LIVE : %d", NBR_LIVE);
 	mvprintw(j + 12, Y_1 + 3, "MAX_CHECKS : %d", MAX_CHECKS);

@@ -15,6 +15,7 @@ typedef struct			s_player
 	int					last_live;
 	int					lives;
 	int					idx;
+	int					size;
 	char				*name;
 	char				*comment;
 	char				*instructions;
@@ -25,7 +26,7 @@ typedef struct			s_player
 typedef	struct 			s_process
 {
 	char				carry;
-	int					*reg;
+	unsigned int		*reg;
 	int					pc;
 	int					delay;
 	int					live;
@@ -59,11 +60,13 @@ typedef	struct			s_vm
 	int					cycle_to_die;
 	int				 	checks;
 	int					game_on;
+	int					log;
 	char				visual_mode;
-	char				nbr_cycles;
+	int					nbr_cycles;
 	t_map_cell			**mem;
 	t_process			*process;
 	t_player			*player;
+	t_codage			*codage;
 }						t_vm;
 
 void					die(char *s);
@@ -80,10 +83,13 @@ void					dump(t_vm *vm);
 void					add_process(t_vm *vm, int pc, t_player *player);
 int						next_pc(int pc, int offset);
 void					tik_process(t_process *pr);
-unsigned int			read_bytes(t_vm *vm, int pc, unsigned int n_bytes);
+int						read_bytes(t_vm *vm, int pc, unsigned int n_bytes);
 void					copy_process(t_vm *vm, t_process *ref);
 t_codage				*read_codage(t_vm *vm, t_process *process, int nf);
 void					dump_to_mem(t_process *pr, int len, int val, int idx);
+void					init_codage(t_codage **ret);
+int						process_count(t_vm *vm);
+unsigned long			bot_length(char *file);
 void					ex_live(t_process *pr);
 void					ex_lfork(t_process *pr);
 void					ex_zjmp(t_process *pr);
