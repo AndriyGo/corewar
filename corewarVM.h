@@ -8,6 +8,10 @@
 # include <unistd.h> //////////////////////////// added by Julia
 # include <ncurses.h> ///////////
 
+# define Y_1 196
+# define Y_2 57
+# define X_1 67
+
 struct					s_vm;
 
 typedef struct			s_player
@@ -107,8 +111,10 @@ void					ex_lld(t_process *pr);
 void					ex_lldi(t_process *pr);
 void					ex_aff(t_process *pr);
 void					ex_lfork(t_process *pr);
+void					print_intro(t_vm *vm);
+void					print_command(t_process *pr, int l);
 
-void					initiate_visualization(t_vm *vm); //////////////////////////// added by Julia
+void					initiate_visualization(void); //////////////////////////// added by Julia
 void					visualization(t_vm *vm);
 
 #endif

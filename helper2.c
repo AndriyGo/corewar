@@ -47,13 +47,13 @@ int				process_count(t_vm *vm)
 
 void			print_command(t_process *pr, int l)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
-	ft_printf("|CMD| = %d (0x%04x -> 0x%04x) ",l, pr->pc, next_pc(pr->pc, l));
-	while (i < l)
-	{
-		ft_printf("%02x ", pr->vm->mem[next_pc(pr->pc, i++)]->value);
-	}
-	ft_printf("\n");
+	// i = 0;
+	// ft_printf("|CMD| = %d (0x%04x -> 0x%04x) ",l, pr->pc, next_pc(pr->pc, l));
+	// while (i < l)
+	// {
+	// 	ft_printf("%02x ", pr->vm->mem[next_pc(pr->pc, i++)]->value);
+	// }
+	// ft_printf("\n");
 }

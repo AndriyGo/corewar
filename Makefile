@@ -12,7 +12,8 @@ SRCS	= 	main.c \
 			game2.c \
 			game3.c \
 			game4.c \
-			visualization.c \
+			visualization1.c \
+			visualization2.c\
 
 OBJS	=	$(SRCS:.c=.o)
 

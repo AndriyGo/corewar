@@ -161,7 +161,7 @@ void	game_move(t_vm *vm)
 		remove_dead_p(vm);
 		vm->checks += 1;
 		decrease_cycle_to_die(vm);
-		ft_printf("%d GAME ON: %d\n", process_count(vm), vm->game_on);
+		// ft_printf("%d GAME ON: %d\n", process_count(vm), vm->game_on);
 		vm->cycle_ = 0;
 	}
 	if (vm->cycle == vm->nbr_cycles)
@@ -198,8 +198,8 @@ void	start_game(t_vm *vm)
 		i += l;
 		tmp = tmp->next;
 	}
-	//if (vm->visual_mode == 1)
-		//initiate_visualization(vm);
+	if (vm->visual_mode == 1)
+		initiate_visualization();
 	while (vm->game_on == 1)
 		game_move(vm);
 	while (1);
