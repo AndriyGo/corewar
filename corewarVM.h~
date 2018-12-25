@@ -1,17 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   corewarVM.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iyerin <iyerin@student.unit.ua>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/25 19:15:11 by iyerin            #+#    #+#             */
-/*   Updated: 2018/12/25 19:15:15 by iyerin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef COREWARVM_H
-# define COREWARVM_H
+#ifndef COREWAR_VM_H
+# define COREWAR_VM_H
 # include "op.h"
 # include "libft/libft.h"
 # include <fcntl.h>
@@ -40,7 +28,7 @@ typedef struct			s_player
 	struct s_vm			*vm;
 }						t_player;
 
-typedef	struct			s_process
+typedef	struct 			s_process
 {
 	char				carry;
 	unsigned int		*reg;
@@ -75,7 +63,7 @@ typedef	struct			s_vm
 	int					cycle;
 	int					cycle_;
 	int					cycle_to_die;
-	int					checks;
+	int				 	checks;
 	int					game_on;
 	int					log;
 	int					paused;
@@ -130,7 +118,7 @@ void					ex_lfork(t_process *pr);
 void					print_intro(t_vm *vm);
 void					print_command(t_process *pr, int l);
 
-void					initiate_visualization(void); //// added by Julia
+void					initiate_visualization(void); //////////////////////////// added by Julia
 void					visualization(t_vm *vm);
 
 #endif

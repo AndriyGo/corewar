@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game4.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iyerin <iyerin@student.unit.ua>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/25 19:13:47 by iyerin            #+#    #+#             */
-/*   Updated: 2018/12/25 19:13:50 by iyerin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "corewarVM.h"
 
 void	ex_lld(t_process *pr)
@@ -37,8 +25,7 @@ void	ex_lldi(t_process *pr)
 	if ((codage->valid == 1) && (codage->type[1] != 3) && \
 		(codage->type[2] == T_REG))
 	{
-		pr->reg[codage->raw_value[2]] = read_bytes(pr->vm, next_pc(pr->pc,
-			(codage->value[0] + codage->value[1])), 4);
+		pr->reg[codage->raw_value[2]] = read_bytes(pr->vm, next_pc(pr->pc, (codage->value[0] + codage->value[1])), 4);
 	}
 	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);

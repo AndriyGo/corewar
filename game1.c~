@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   game1.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iyerin <iyerin@student.unit.ua>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/25 19:08:11 by iyerin            #+#    #+#             */
-/*   Updated: 2018/12/25 19:08:16 by iyerin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "corewarVM.h"
 
 void	load_instruction(t_process *pr)
@@ -20,8 +8,7 @@ void	load_instruction(t_process *pr)
 		pr->pc = next_pc(pr->pc, 1);
 		pr->inst = 0;
 	}
-	else if ((pr->inst == 1) || (pr->inst == 4)
-		|| (pr->inst == 5) || (pr->inst == 13))
+	else if ((pr->inst == 1) || (pr->inst == 4) || (pr->inst == 5) || (pr->inst == 13))
 		pr->delay = 9;
 	else if ((pr->inst == 2) || (pr->inst == 3))
 		pr->delay = 4;
@@ -43,9 +30,7 @@ void	load_instruction(t_process *pr)
 
 void	tik_process2(t_process *pr)
 {
-	if (pr->inst == 9)
-		ex_zjmp(pr);
-	else if (pr->inst == 10)
+	if (pr->inst == 10)
 		ex_ldi(pr);
 	else if (pr->inst == 11)
 		ex_sti(pr);
@@ -85,6 +70,8 @@ void	tik_process(t_process *pr)
 		ex_or(pr);
 	else if (pr->inst == 8)
 		ex_xor(pr);
+	else if (pr->inst == 9)
+		ex_zjmp(pr);
 	else
 		tik_process2(pr);
 	pr->inst = 0;
@@ -105,7 +92,7 @@ void	ex_live(t_process *pr)
 		{
 			tmp->lives += 1;
 			tmp->last_live = pr->vm->cycle;
-			break ;
+			break;
 		}
 		tmp = tmp->next;
 	}
