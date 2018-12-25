@@ -178,8 +178,8 @@ void	game_move(t_vm *vm)
 	}
 	if (vm->visual_mode == 1)
 	{
-		visualization(vm);
 		read_key(vm);
+		visualization(vm);
 	}
 	if (vm->cycle_ == vm->cycle_to_die)
 	{
@@ -188,7 +188,7 @@ void	game_move(t_vm *vm)
 		decrease_cycle_to_die(vm);
 		vm->cycle_ = 0;
 		if (vm->game_on == 0)
-			print_victory(vm);
+			print_victory(vm, 1);
 		ft_printf("(%d %d): %d\n", vm->cycle, vm->cycle_to_die, process_count(vm));
 	}
 	if (vm->cycle == vm->nbr_cycles)

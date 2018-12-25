@@ -66,6 +66,7 @@ typedef	struct			s_vm
 	int				 	checks;
 	int					game_on;
 	int					log;
+	int					paused;
 	int					c_per_sec;
 	int					lives;
 	char				visual_mode;

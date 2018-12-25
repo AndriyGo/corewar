@@ -12,7 +12,7 @@
 
 #include "corewarVM.h"
 
-void	pause()
+void	pause_()
 {
 	int	key;
 
@@ -30,5 +30,5 @@ void	read_key(t_vm *vm)
 	timeout(1000 / vm->c_per_sec);
 	key = getch();
 	if (key == 32)
-		pause();
+		pause_();
 }
