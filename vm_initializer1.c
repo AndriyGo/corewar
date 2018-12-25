@@ -14,7 +14,7 @@ void	create_vm(t_vm **vm)
 	(*vm)->nbr_cycles = -1;
 	(*vm)->checks = 0;
 	(*vm)->game_on = 1;
-	(*vm)->log = 1;
+	(*vm)->log = 0;
 	init_codage(&((*vm)->codage));
 	if (((*vm)->mem = ft_memalloc(MEM_SIZE * sizeof(t_map_cell *))) == NULL)
 		die("Error: Out of memory!");
@@ -81,6 +81,7 @@ void	add_player(t_vm *vm, char *file, int idx)
 		die("Error: Out of memory!");
 	p->size = (int)bot_length(file + (size_t)((PROG_NAME_LENGTH + 4 + hex_len(COREWAR_EXEC_MAGIC)) * 2));
 	p->vm = vm;
+	p->n = 0;
 	p->name = string_from_binary(file, hex_len(COREWAR_EXEC_MAGIC) * 2, PROG_NAME_LENGTH);
 	p->comment = string_from_binary(file, (hex_len(COREWAR_EXEC_MAGIC) + PROG_NAME_LENGTH + 8) * 2 , COMMENT_LENGTH);
 	file += (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH + 12 + hex_len(COREWAR_EXEC_MAGIC)) * 2);

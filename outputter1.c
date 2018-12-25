@@ -2,15 +2,13 @@
 
 void	print_intro(t_vm *vm)
 {
-	int			i;
 	t_player	*p;
 
 	ft_printf(" || PARTICIPANTS: ||\n");
-	i = 1;
 	p = vm->player;
 	while (p)
 	{
-		ft_printf("=============// Player[%d]\n",i++);
+		ft_printf("=============// Player[%d]\n",p->n);
 		ft_printf("\tName:    \"%s\"\n", p->name);
 		ft_printf("\tWeight:   %d\n", p->size);
 		ft_printf("\tComment: \"%s\"\n", p->comment);

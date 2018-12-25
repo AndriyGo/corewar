@@ -12,8 +12,7 @@ void	ex_lld(t_process *pr)
 		pr->reg[codage->raw_value[1]] = codage->value[0];
 		pr->carry = (pr->reg[codage->raw_value[1]] == 0);
 	}
-	if (pr->vm->log)
-		print_command(pr, codage->to_skip);
+	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -28,8 +27,7 @@ void	ex_lldi(t_process *pr)
 	{
 		pr->reg[codage->raw_value[2]] = read_bytes(pr->vm, next_pc(pr->pc, (codage->value[0] + codage->value[1])), 4);
 	}
-	if (pr->vm->log)
-		print_command(pr, codage->to_skip);
+	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -43,8 +41,7 @@ void	ex_aff(t_process *pr)
 	{
 		ft_printf("%c", codage->value[0]);
 	}
-	if (pr->vm->log)
-			print_command(pr, codage->to_skip);
+	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -55,7 +52,6 @@ void	ex_lfork(t_process *pr)
 	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 	copy_process(pr->vm, pr);
 	pr->vm->process->pc = (pr->vm->process->pc + value) % MEM_SIZE;
-	if (pr->vm->log)
-		print_command(pr, 3);
+	print_command(pr, 3);
 	pr->pc = next_pc(pr->pc, 3);
 }

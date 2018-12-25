@@ -19,6 +19,7 @@ typedef struct			s_player
 	int					last_live;
 	int					lives;
 	int					idx;
+	int					n;
 	int					size;
 	char				*name;
 	char				*comment;

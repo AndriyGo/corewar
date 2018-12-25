@@ -7,6 +7,8 @@ void	print_usage()
 	ft_printf("        after nbr_cycles of executions, memory is dumped on standard output and the game terminates\n");
 	ft_printf("   -v:\n");
 	ft_printf("        visual mode.\n");
+	ft_printf("   -l:\n");
+	ft_printf("        log mode.\n");
 	ft_printf("   -n:\n");
 	ft_printf("        specifies custom player number.\n");
 	ft_printf("        IMPORTANT: it is your responsibility to ensure that number is valid.\n");
@@ -65,7 +67,8 @@ void	sort_players(t_vm *vm)
 	tmp = vm->player;
 	while (tmp != NULL)
 	{
-		tmp->idx = i--;
+		tmp->idx = i;
+		tmp->n = -i--;
 		tmp = tmp->next;
 	} 
 }
@@ -87,12 +90,14 @@ void	remove_dead_p(t_vm *vm)
 			if (prev == NULL)
 			{
 				vm->process = tmp->next;
+				free(tmp->reg);
 				free(tmp);
 				tmp = vm->process;
 			}
 			else
 			{
 				tmp = tmp->next;
+				free(prev->next->reg);
 				free(prev->next);
 				prev->next = tmp;
 			}
@@ -103,11 +108,6 @@ void	remove_dead_p(t_vm *vm)
 			prev = tmp;
 			tmp = tmp->next;
 		}
-	}
-	if (c != process_count(vm))
-	{
-		ft_printf("PROCESS REMOVAL FAILURE!!!!!");
-		exit(0);
 	}
 	vm->game_on = (vm->process != NULL);
 }
@@ -136,11 +136,30 @@ void	decrease_cycle_to_die(t_vm *vm)
 	}
 }
 
+void	print_victory(t_vm *vm)
+{
+	t_player	*winner;
+	t_player	*tmp;
+	int 		max_live;
+
+	max_live = 0;
+	tmp = vm->player;
+	while (tmp)
+	{
+		if (tmp->last_live >= max_live)
+		{
+			max_live = tmp->last_live;
+			winner = tmp;
+		}
+		tmp = tmp->next;
+	}
+	ft_printf("Contestant %d, \"%s\", has won !\n", winner->n, winner->name);
+}
+
 void	game_move(t_vm *vm)
 {
 	t_process	*tmp;
 
-	int p_count = process_count(vm);
 	vm->cycle += 1;
 	vm->cycle_ += 1;
 	tmp = vm->process;
@@ -149,20 +168,16 @@ void	game_move(t_vm *vm)
 		tik_process(tmp);
 		tmp = tmp->next;
 	}
-	if (process_count(vm) != p_count)
-	{
-		//ft_printf("%d: \t%d\n", vm->cycle, process_count(vm));
-	}
-	if ((vm->visual_mode == 1) && (vm->cycle > 3900))
+	if (vm->visual_mode == 1)
 		visualization(vm);
 	if (vm->cycle_ == vm->cycle_to_die)
 	{
-		ft_printf("%d: \t%d -> \t", vm->cycle, process_count(vm));
 		remove_dead_p(vm);
 		vm->checks += 1;
 		decrease_cycle_to_die(vm);
-		// ft_printf("%d GAME ON: %d\n", process_count(vm), vm->game_on);
 		vm->cycle_ = 0;
+		if (vm->game_on == 0)
+			print_victory(vm);
 	}
 	if (vm->cycle == vm->nbr_cycles)
 	{
@@ -198,6 +213,7 @@ void	start_game(t_vm *vm)
 		i += l;
 		tmp = tmp->next;
 	}
+	print_intro(vm);
 	if (vm->visual_mode == 1)
 		initiate_visualization();
 	while (vm->game_on == 1)
@@ -223,6 +239,8 @@ int		main(int argc, char **argv)
 		}
 		else if (ft_strcmp(argv[i], "-v") == 0)
 			vm->visual_mode = 1;
+		else if (ft_strcmp(argv[i], "-l") == 0)
+			vm->log = 1;
 		else if (ft_strcmp(argv[i], "-dump") == 0)
 			read_dump(vm, ++i, argc, argv);
 		else if (ft_strcmp(argv[i], "-n") == 0)
@@ -231,6 +249,5 @@ int		main(int argc, char **argv)
 			create_player(vm, argv[i], -1);
 		i++;
 	}
-	print_intro(vm);
 	start_game(vm);
 }

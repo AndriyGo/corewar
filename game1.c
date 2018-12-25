@@ -95,8 +95,7 @@ void	ex_live(t_process *pr)
 		}
 		tmp = tmp->next;
 	}
-	if (pr->vm->log)
-		print_command(pr, 5);
+	print_command(pr, 5);
 	pr->pc = next_pc(pr->pc, 5);
 }
 
@@ -104,8 +103,7 @@ void	ex_zjmp(t_process *pr)
 {
 	short	value;
 
-	if (pr->vm->log)
-		print_command(pr, 3);
+	print_command(pr, 3);
 	if (pr->carry == 1)
 	{
 		value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
