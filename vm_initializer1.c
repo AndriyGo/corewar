@@ -17,6 +17,7 @@ void	create_vm(t_vm **vm)
 	(*vm)->log = 0;
 	(*vm)->lives = 0;
 	(*vm)->codage = init_codage();
+	(*vm)->c_per_sec = 10;
 	if (((*vm)->mem = ft_memalloc(MEM_SIZE * sizeof(t_map_cell *))) == NULL)
 		die("Error: Out of memory!");
 	i = 0;

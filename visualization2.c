@@ -11,3 +11,24 @@
 /* ************************************************************************** */
 
 #include "corewarVM.h"
+
+void	pause()
+{
+	int	key;
+
+	key = 0;
+	while(key != 32)
+	{
+		key = getch();
+	}
+}
+
+void	read_key(t_vm *vm)
+{
+	int	key;
+
+	timeout(1000 / vm->c_per_sec);
+	key = getch();
+	if (key == 32)
+		pause();
+}

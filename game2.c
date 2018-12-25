@@ -16,9 +16,7 @@ void	ex_load(t_process *pr)
 	t_codage		*codage;
 
 	pr->l_size = 4;
-	ft_printf("1");
 	codage = read_codage(pr->vm, pr, 2);
-	ft_printf("2");
 	if ((codage->valid == 1) && ((codage->type[0] == T_DIR) || \
 		(codage->type[0] == 3)) && (codage->type[1] == T_REG))
 	{

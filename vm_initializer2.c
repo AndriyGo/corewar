@@ -118,11 +118,8 @@ t_codage	*read_codage(t_vm *vm, t_process *process, int nf)
 	ret = vm->codage;
 	ret->to_skip = 2;
 	ret->valid = 1;
-	ft_printf("\n1");
 	octal = read_bytes(vm, next_pc(process->pc, 1), 1);
-	ft_printf("\n2");
 	read_codage_octal(ret, 0, octal >> 6, process);
-	ft_printf("\n3");
 	if (nf > 1)
 		read_codage_octal(ret, 1, (octal - (octal & (3 << 6))) >> 4, process);
 	if (nf > 2)
