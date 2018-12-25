@@ -6,9 +6,11 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	t_process	*tmp;
 	int			i;
 
+	ft_printf("pr 1\n");
 	if (((process = ft_memalloc(sizeof(t_process))) == NULL) || \
 		((process->reg = ft_memalloc(REG_NUMBER * sizeof(int))) == NULL))
 		die("Error: Out of memory!");
+	ft_printf("pr 2\n");
 	i = 0;
 	while (i < REG_NUMBER)
 		process->reg[i++] = 0;
@@ -20,6 +22,7 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	process->vm = vm;
 	process->live = 0;
 	process->player = player;
+	process->next = NULL;
 	if (vm->process == NULL)
 		vm->process = process;
 	else
@@ -53,27 +56,29 @@ void		copy_process(t_vm *vm, t_process *ref)
 	vm->process = process;
 }
 
-void		init_codage(t_codage **ret)
+t_codage	*init_codage()
 {
 	int	i;
+	t_codage	*ret;
 
-	if ((*ret = ft_memalloc(sizeof(t_codage))) == NULL)
+	if ((ret = ft_memalloc(sizeof(t_codage))) == NULL)
 		die("Error: Out of memory!");
-	if (((*ret)->type = ft_memalloc(3 * sizeof(int))) == NULL)
+	if (((ret)->type = ft_memalloc(3 * sizeof(int))) == NULL)
 		die("Error: Out of memory!");
-	if (((*ret)->value = ft_memalloc(3 * sizeof(int))) == NULL)
+	if (((ret)->value = ft_memalloc(3 * sizeof(int))) == NULL)
 		die("Error: Out of memory!");
-	if (((*ret)->raw_value = ft_memalloc(3 * sizeof(int))) == NULL)
+	if (((ret)->raw_value = ft_memalloc(3 * sizeof(int))) == NULL)
 		die("Error: Out of memory!");
 	i = 0;
 	while (i < 3)
 	{
-		(*ret)->value[i] = 0;
-		(*ret)->raw_value[i] = 0;
-		(*ret)->type[i++] = 0;
+		(ret)->value[i] = 0;
+		(ret)->raw_value[i] = 0;
+		(ret)->type[i++] = 0;
 	}
-	(*ret)->valid = 1;
-	(*ret)->to_skip = 2;
+	(ret)->valid = 1;
+	(ret)->to_skip = 2;
+	return (ret);
 }
 
 void		read_codage_octal(t_codage *codage, int idx, int octal, t_process *pr)
@@ -113,8 +118,11 @@ t_codage	*read_codage(t_vm *vm, t_process *process, int nf)
 	ret = vm->codage;
 	ret->to_skip = 2;
 	ret->valid = 1;
+	ft_printf("\n1");
 	octal = read_bytes(vm, next_pc(process->pc, 1), 1);
+	ft_printf("\n2");
 	read_codage_octal(ret, 0, octal >> 6, process);
+	ft_printf("\n3");
 	if (nf > 1)
 		read_codage_octal(ret, 1, (octal - (octal & (3 << 6))) >> 4, process);
 	if (nf > 2)

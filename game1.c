@@ -54,6 +54,7 @@ void	tik_process(t_process *pr)
 		pr->delay = pr->delay - 1;
 	if (pr->delay != 0 || pr->inst == 0)
 		return ;
+	ft_printf("%d", pr->inst);
 	if (pr->inst == 1)
 		ex_live(pr);
 	else if (pr->inst == 2)
@@ -75,6 +76,7 @@ void	tik_process(t_process *pr)
 	else
 		tik_process2(pr);
 	pr->inst = 0;
+	ft_printf("\tDONE\n");
 }
 
 void	ex_live(t_process *pr)

@@ -66,6 +66,7 @@ typedef	struct			s_vm
 	int				 	checks;
 	int					game_on;
 	int					log;
+	int					lives;
 	char				visual_mode;
 	int					nbr_cycles;
 	t_map_cell			**mem;
@@ -92,7 +93,7 @@ int						read_bytes(t_vm *vm, int pc, unsigned int n_bytes);
 void					copy_process(t_vm *vm, t_process *ref);
 t_codage				*read_codage(t_vm *vm, t_process *process, int nf);
 void					dump_to_mem(t_process *pr, int len, int val, int idx);
-void					init_codage(t_codage **ret);
+t_codage				*init_codage();
 int						process_count(t_vm *vm);
 unsigned long			bot_length(char *file);
 void					ex_live(t_process *pr);

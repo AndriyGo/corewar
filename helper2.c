@@ -9,7 +9,6 @@ int	read_bytes(t_vm *vm, int pc, unsigned int n_bytes)
 	res = 0;
 	while (i < n_bytes)
 	{
-		//ft_printf("%d\n", vm->mem[next_pc(pc, i++)]->value);
 		res = res * 16 * 16 + vm->mem[next_pc(pc, i)]->value;
 		i++;
 	}

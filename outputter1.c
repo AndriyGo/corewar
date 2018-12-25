@@ -6,7 +6,7 @@ void	print_intro(t_vm *vm)
 
 	ft_printf(" || PARTICIPANTS: ||\n");
 	p = vm->player;
-	while (p)
+	while (p != NULL)
 	{
 		ft_printf("=============// Player[%d]\n",p->n);
 		ft_printf("\tName:    \"%s\"\n", p->name);

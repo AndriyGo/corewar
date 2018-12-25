@@ -70,7 +70,7 @@ void	sort_players(t_vm *vm)
 		tmp->idx = i;
 		tmp->n = -i--;
 		tmp = tmp->next;
-	} 
+	}
 }
 
 void	remove_dead_p(t_vm *vm)
@@ -115,15 +115,13 @@ void	remove_dead_p(t_vm *vm)
 void	decrease_cycle_to_die(t_vm *vm)
 {
 	t_player	*p;
-	int			decrease;
 
-	if (vm->checks == MAX_CHECKS)
+	if (vm->checks == 0)
 	{
-		vm->checks = 0;
+		vm->checks = MAX_CHECKS;
 		vm->cycle_to_die -= CYCLE_DELTA;
 	}
 	p = vm->player;
-	decrease = 0;
 	while (p)
 	{
 		if ((p->lives >= NBR_LIVE) && ((vm->checks != 0)))
@@ -173,11 +171,12 @@ void	game_move(t_vm *vm)
 	if (vm->cycle_ == vm->cycle_to_die)
 	{
 		remove_dead_p(vm);
-		vm->checks += 1;
+		vm->checks -= 1;
 		decrease_cycle_to_die(vm);
 		vm->cycle_ = 0;
 		if (vm->game_on == 0)
 			print_victory(vm);
+		ft_printf("(%d %d): %d\n", vm->cycle, vm->cycle_to_die, process_count(vm));
 	}
 	if (vm->cycle == vm->nbr_cycles)
 	{
