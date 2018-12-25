@@ -1,6 +1,18 @@
-#include "corewarVM.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validator1.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iyerin <iyerin@student.unit.ua>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/25 19:35:19 by iyerin            #+#    #+#             */
+/*   Updated: 2018/12/25 19:35:23 by iyerin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		binary_chars_valid(char *file)
+#include "corewarvm.h"
+
+int				binary_chars_valid(char *file)
 {
 	int	ok;
 
@@ -20,7 +32,7 @@ int		binary_chars_valid(char *file)
 	return (1);
 }
 
-int		magic_header_ok(char *file)
+int				magic_header_ok(char *file)
 {
 	int	header;
 	int	i;
@@ -38,7 +50,7 @@ int		magic_header_ok(char *file)
 	return (header == COREWAR_EXEC_MAGIC);
 }
 
-int		null_valid(char *file)
+int				null_valid(char *file)
 {
 	int	i;
 
@@ -54,7 +66,7 @@ int		null_valid(char *file)
 unsigned long	bot_length(char *file)
 {
 	unsigned long	header;
-	int	i;
+	int				i;
 
 	header = 0;
 	i = 0;
@@ -69,22 +81,27 @@ unsigned long	bot_length(char *file)
 	return (header);
 }
 
-
-void	validate_file(char *file)
+void			validate_file(char *file)
 {
-	if (ft_strlen(file) <= (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH + 12 + hex_len(COREWAR_EXEC_MAGIC)) * 2))
+	if (ft_strlen(file) <= (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH
+		+ 12 + hex_len(COREWAR_EXEC_MAGIC)) * 2))
 		die("Error: Champion binary file too small.");
 	if (binary_chars_valid(file) == 0)
 		die("Error: Champion binary contains non-hex values.");
 	if (magic_header_ok(file) == 0)
 		die("Error: Champion binary starts with wrong magic header.");
-	if (null_valid(file + (size_t)(hex_len(COREWAR_EXEC_MAGIC) + PROG_NAME_LENGTH) * 2) == 0)
+	if (null_valid(file + (size_t)(hex_len(COREWAR_EXEC_MAGIC)
+		+ PROG_NAME_LENGTH) * 2) == 0)
 		die("Error: Champion binary misses NULL after bot name.");
-	if (null_valid(file + (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH + 8 + hex_len(COREWAR_EXEC_MAGIC)) * 2)) == 0)
+	if (null_valid(file + (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH
+		+ 8 + hex_len(COREWAR_EXEC_MAGIC)) * 2)) == 0)
 		die("Error: Champion binary misses NULL after comment.");
-	if (bot_length(file + (size_t)((PROG_NAME_LENGTH + 4 + hex_len(COREWAR_EXEC_MAGIC)) * 2)) > CHAMP_MAX_SIZE)
+	if (bot_length(file + (size_t)((PROG_NAME_LENGTH + 4 + hex_len(
+		COREWAR_EXEC_MAGIC)) * 2)) > CHAMP_MAX_SIZE)
 		die("Error: Declared champion size greater than maximum allowed size.");
-	if (bot_length(file + (size_t)((PROG_NAME_LENGTH + 4 + hex_len(COREWAR_EXEC_MAGIC)) * 2)) * 2 != \
-		ft_strlen(file) - (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH + 12 + hex_len(COREWAR_EXEC_MAGIC)) * 2))
+	if (bot_length(file + (size_t)((PROG_NAME_LENGTH + 4 + hex_len(
+		COREWAR_EXEC_MAGIC)) * 2)) * 2 != ft_strlen(file) - (size_t)((
+		PROG_NAME_LENGTH + COMMENT_LENGTH + 12 + hex_len(COREWAR_EXEC_MAGIC))
+		* 2))
 		die("Error: Declared champion size does not match its actual size.");
 }

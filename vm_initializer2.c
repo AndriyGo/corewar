@@ -1,4 +1,4 @@
-#include "corewarVM.h"
+#include "corewarvm.h"
 
 void		add_process(t_vm *vm, int pc, t_player *player)
 {

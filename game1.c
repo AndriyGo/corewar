@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewarVM.h"
+#include "corewarvm.h"
 
 void	load_instruction(t_process *pr)
 {

@@ -24,7 +24,7 @@
 # define Y_2 57
 # define X_1 67
 
-struct					s_vm;
+struct s_vm;
 
 typedef struct			s_player
 {

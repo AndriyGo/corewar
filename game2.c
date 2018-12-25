@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewarVM.h"
+#include "corewarvm.h"
 
 void	ex_fork(t_process *pr)
 {

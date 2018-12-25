@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewarVM.h"
+#include "corewarvm.h"
 
 static void		ft_colors(void)
 {

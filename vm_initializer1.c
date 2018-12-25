@@ -1,4 +1,4 @@
-#include "corewarVM.h"
+#include "corewarvm.h"
 
 void	create_vm(t_vm **vm)
 {

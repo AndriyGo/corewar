@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewarVM.h"
+#include "corewarvm.h"
 
 void	ex_lld(t_process *pr)
 {

@@ -1,9 +1,21 @@
-#include "corewarVM.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helper2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iyerin <iyerin@student.unit.ua>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/25 19:25:37 by iyerin            #+#    #+#             */
+/*   Updated: 2018/12/25 19:25:40 by iyerin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	read_bytes(t_vm *vm, int pc, unsigned int n_bytes)
+#include "corewarvm.h"
+
+int		read_bytes(t_vm *vm, int pc, unsigned int n_bytes)
 {
 	unsigned int	i;
-	int	res;
+	int				res;
 
 	i = 0;
 	res = 0;
@@ -15,21 +27,22 @@ int	read_bytes(t_vm *vm, int pc, unsigned int n_bytes)
 	return (res);
 }
 
-void			dump_to_mem(t_process *pr, int len, int val, int idx)
+void	dump_to_mem(t_process *pr, int len, int val, int idx)
 {
 	int	i;
 
 	i = 0;
 	while (i < len)
 	{
-		pr->vm->mem[next_pc(idx, i)]->value = ((val & 255 << ((8) * (len - i - 1))) >> (8) * (len - i - 1));
+		pr->vm->mem[next_pc(idx, i)]->value = ((val & 255 << ((8) *
+			(len - i - 1))) >> (8) * (len - i - 1));
 		pr->vm->mem[next_pc(idx, i)]->player = pr->player;
 		pr->vm->mem[next_pc(idx, i)]->last_update = 50;
 		i++;
 	}
 }
 
-int				process_count(t_vm *vm)
+int		process_count(t_vm *vm)
 {
 	t_process	*tmp;
 	int			ret;
@@ -44,14 +57,14 @@ int				process_count(t_vm *vm)
 	return (ret);
 }
 
-void			print_command(t_process *pr, int l)
+void	print_command(t_process *pr, int l)
 {
 	int	i;
 
-	if (pr->vm->log ==0)
+	if (pr->vm->log == 0)
 		return ;
 	i = 0;
-	ft_printf("|CMD| = %d (0x%04x -> 0x%04x) ",l, pr->pc, next_pc(pr->pc, l));
+	ft_printf("|CMD| = %d (0x%04x -> 0x%04x) ", l, pr->pc, next_pc(pr->pc, l));
 	while (i < l)
 	{
 		ft_printf("%02x ", pr->vm->mem[next_pc(pr->pc, i++)]->value);

@@ -1,4 +1,16 @@
-#include "corewarVM.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helper1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iyerin <iyerin@student.unit.ua>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/25 19:23:49 by iyerin            #+#    #+#             */
+/*   Updated: 2018/12/25 19:23:53 by iyerin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "corewarvm.h"
 
 void	die(char *s)
 {
@@ -47,6 +59,7 @@ int		int_from_hex(char c)
 int		next_pc(int pc, int offset)
 {
 	int ret;
+
 	ret = pc + offset;
 	while (ret < 0)
 		ret += MEM_SIZE;

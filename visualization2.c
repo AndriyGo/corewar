@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewarVM.h"
+#include "corewarvm.h"
 
 void	pause_(t_vm *vm)
 {
@@ -18,7 +18,7 @@ void	pause_(t_vm *vm)
 
 	key = 0;
 	mvprintw(2, Y_1 + 3, "** PAUSED **");
-	while(key != 32)
+	while (key != 32)
 	{
 		key = getch();
 	}

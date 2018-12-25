@@ -10,22 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewarVM.h"
+#include "corewarvm.h"
 
-void	print_usage()
+void	print_usage(void)
 {
-	ft_printf("Usage: ./corewar [-dump nbr_cycles] [-v] [[-n number] champion1.cor] ...\n");
+	ft_printf("Usage: ./corewar [-dump nbr_cycles]
+		[-v] [[-n number] champion1.cor] ...\n");
 	ft_printf("   -dump:\n");
-	ft_printf("        after nbr_cycles of executions, memory is dumped on standard output and the game terminates\n");
+	ft_printf("        after nbr_cycles of executions, memory is dumped
+		on standard output and the game terminates\n");
 	ft_printf("   -v:\n");
 	ft_printf("        visual mode.\n");
 	ft_printf("   -l:\n");
 	ft_printf("        log mode.\n");
 	ft_printf("   -n:\n");
 	ft_printf("        specifies custom player number.\n");
-	ft_printf("        IMPORTANT: it is your responsibility to ensure that number is valid.\n");
-	ft_printf("        E.g. a game cannot be played between 2 players with numbers 1 and 3!\n");
-	ft_printf("NOTE: a game must contain between 1 and %d players!\n", MAX_PLAYERS);
+	ft_printf("        IMPORTANT: it is your responsibility to ensure
+		that number is valid.\n");
+	ft_printf("        E.g. a game cannot be played between 2 players
+		with numbers 1 and 3!\n");
+	ft_printf("NOTE: a game must contain between 1 and
+		%d players!\n", MAX_PLAYERS);
 	exit(0);
 }
 
@@ -89,9 +94,9 @@ void	remove_dead_p(t_vm *vm)
 {
 	t_process	*tmp;
 	t_process	*prev;
+	int			c;
 
-	int c = process_count(vm);
-
+	c = process_count(vm);
 	prev = NULL;
 	tmp = vm->process;
 	while (tmp)
@@ -146,7 +151,7 @@ t_player	*print_victory(t_vm *vm, int print)
 {
 	t_player	*winner;
 	t_player	*tmp;
-	int 		max_live;
+	int			max_live;
 
 	max_live = 0;
 	tmp = vm->player;
@@ -160,7 +165,8 @@ t_player	*print_victory(t_vm *vm, int print)
 		tmp = tmp->next;
 	}
 	if (print)
-		ft_printf("Contestant %d, \"%s\", has won !\n", winner->n, winner->name);
+		ft_printf("Contestant %d, \"%s\",
+			has won !\n", winner->n, winner->name);
 	return (winner);
 }
 
@@ -199,9 +205,9 @@ void	game_move(t_vm *vm)
 
 void	start_game(t_vm *vm)
 {
-	int 		i;
+	int			i;
 	int			c;
-	int 		l;
+	int			l;
 	t_player	*tmp;
 
 	if (vm->player == NULL)
@@ -216,7 +222,8 @@ void	start_game(t_vm *vm)
 		c = -1;
 		while (tmp->instructions[++c])
 		{
-			vm->mem[i + (c / 2) + (c % 2)]->value = hex_to_int(tmp->instructions[c]) * 16 + hex_to_int(tmp->instructions[c+1]);
+			vm->mem[i + (c / 2) + (c % 2)]->value = hex_to_int(
+			tmp->instructions[c]) * 16 + hex_to_int(tmp->instructions[c + 1]);
 			vm->mem[i + (c / 2) + (c % 2)]->player = tmp;
 			c++;
 		}
@@ -229,7 +236,8 @@ void	start_game(t_vm *vm)
 		initiate_visualization();
 	while (vm->game_on == 1)
 		game_move(vm);
-	while (1);
+	while (1)
+		;
 }
 
 int		main(int argc, char **argv)
@@ -243,7 +251,7 @@ int		main(int argc, char **argv)
 	idx = -1;
 	while (i < argc)
 	{
-		if (idx >0)
+		if (idx > 0)
 		{
 			create_player(vm, argv[i], idx);
 			idx = -1;
