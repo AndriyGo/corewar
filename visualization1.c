@@ -39,9 +39,12 @@ void			initiate_visualization(void)
 	int			i;
 
 	initscr();
-	curs_set(0);
+	keypad(stdscr, true);
+	timeout(0);
+	curs_set(false);
+	cbreak();
+	noecho();
 	ft_colors();
-	i = 0;
 	attron(COLOR_PAIR(11));
 	i = 67;
 	while (i >= 0)
@@ -51,12 +54,11 @@ void			initiate_visualization(void)
 		mvprintw(i, Y_1, "*");
 		i--;
 	}
-	i = 253;
-	while (i >= 0)
+	i = 254;
+	while (--i >= 0)
 	{
 		mvprintw(0, i, "*");
 		mvprintw(X_1, i, "*");
-		i--;
 	}
 	attroff(COLOR_PAIR(11));
 }
@@ -135,11 +137,8 @@ int				print_players(t_player *pl)
 void			visualization(t_vm *vm)
 {
 	int			j;
-		t_process	*tmp;
-	tmp = vm->process;
 
 	attron(COLOR_PAIR(12) | A_BOLD);
-	mvprintw(2, Y_1 + 3, "** PAUSED **");
 	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d", 50);
 	mvprintw(6, Y_1 + 3, "Total cycle : %d", (vm)->cycle);
 	mvprintw(7, Y_1 + 3, "Cycle : %d", (vm)->cycle_);
@@ -153,10 +152,4 @@ void			visualization(t_vm *vm)
 	draw_map(vm);
 	draw_carrys(vm);
 	refresh();
-	j = getch();
-	if (j == 27)
-	{
-		endwin();
-		exit(0);
-	}
 }

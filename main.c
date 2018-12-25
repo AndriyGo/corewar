@@ -210,6 +210,7 @@ void	start_game(t_vm *vm)
 	int			l;
 	t_player	*tmp;
 
+	vm->paused = 1;
 	if (vm->player == NULL)
 		print_usage();
 	sort_players(vm);
