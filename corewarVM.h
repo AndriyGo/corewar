@@ -83,6 +83,7 @@ typedef	struct			s_vm
 	int					lives;
 	char				visual_mode;
 	int					nbr_cycles;
+	int					fps;
 	t_map_cell			**mem;
 	t_process			*process;
 	t_player			*player;
@@ -132,5 +133,6 @@ void					print_command(t_process *pr, int l);
 void					read_key(t_vm *vm);
 void					initiate_visualization(void); //// added by Julia
 void					visualization(t_vm *vm);
+t_player				*print_victory(t_vm *vm, int print);
 
 #endif

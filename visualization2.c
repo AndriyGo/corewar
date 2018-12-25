@@ -19,11 +19,20 @@ static void		parse_keys(t_vm *vm)
 	key = getch();
 	if (key == 32)
 		vm->paused = 1;
-	else if (key == 27 || key == 113)
+	else if (key == 113 && vm->fps > 1)
+		vm->fps = (vm->fps - 10 < 1 ? 1 : vm->fps - 10);
+	else if (key == 119 && vm->fps > 1)
+		vm->fps -= 1;
+	else if (key == 101 && vm->fps < 1000)
+		vm->fps += 1;
+	else if (key == 114 && vm->fps < 1000)
+		vm->fps = (vm->fps + 10 > 1000 ? 1000 : vm->fps + 10);
+	else if (key == 27)
 	{
 		endwin();
 		exit(0);
 	}
+	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d   ", vm->fps);
 }
 
 static void		pause_(t_vm *vm)

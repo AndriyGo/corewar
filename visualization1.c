@@ -105,7 +105,6 @@ static void		draw_carrys(t_vm *vm)
 			attron(COLOR_PAIR(vm->mem[tmp->pc]->player->idx * (-1) + 5));
 		x = tmp->pc / 64 + 2;
 		y = tmp->pc % 64 * 3 + 3;
-		// fprintf(stderr, "%d\n", tmp->pc);
 		mvprintw(x, y, "%02x", vm->mem[tmp->pc]->value);
 		if (vm->mem[tmp->pc]->player == NULL)
 			attroff(COLOR_PAIR(5));
@@ -124,14 +123,32 @@ int				print_players(t_player *pl)
 	{
 		mvprintw(j, Y_1 + 3, "Player %d :", pl->idx);
 		attron(COLOR_PAIR(-pl->idx));
-		mvprintw(j, Y_1 + 15, "%s", pl->name);
+		mvprintw(j, Y_1 + 15, "%.42s", pl->name);
 		attroff(COLOR_PAIR(-pl->idx));
-		mvprintw(j + 1, Y_1 + 6, "Last live : % 21d", pl->last_live);
-		mvprintw(j + 2, Y_1 + 6, "Lives in current period : % 7d", pl->lives);
+		mvprintw(j + 1, Y_1 + 6, "Last live : % 21d   ", pl->last_live);
+		mvprintw(j + 2, Y_1 + 6, "Lives in current period : % 7d   ", pl->lives);
 		j += 4;
 		pl = pl->next;
 	}
 	return (j);
+}
+
+void			announce_winner(t_vm *vm, int j)
+{
+	t_player	*winner;
+
+	winner = print_victory(vm, 0);
+	attron(A_BOLD);
+	mvprintw(j + 8, Y_1 + 3, "the winner is : ");
+	attron(COLOR_PAIR(winner->n));
+	mvprintw(j + 8, Y_1 + 19, "%.38s", winner->name);
+	attroff(COLOR_PAIR(winner->n));
+	mvprintw(j + 10, Y_1 + 3, "Press any key to finish");
+	refresh();
+	while (getch() == -1)
+		;
+	endwin();
+	exit(0);
 }
 
 void			visualization(t_vm *vm)
@@ -139,17 +156,19 @@ void			visualization(t_vm *vm)
 	int			j;
 
 	attron(COLOR_PAIR(12) | A_BOLD);
-	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d", 50);
-	mvprintw(6, Y_1 + 3, "Total cycle : %d", (vm)->cycle);
-	mvprintw(7, Y_1 + 3, "Cycle : %d", (vm)->cycle_);
-	mvprintw(9, Y_1 + 3, "Processes : %d", process_count(vm));
+	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d   ", vm->fps);
+	mvprintw(6, Y_1 + 3, "Total cycle : %d   ", (vm)->cycle);
+	mvprintw(7, Y_1 + 3, "Cycle : %d   ", (vm)->cycle_);
+	mvprintw(9, Y_1 + 3, "Processes : %d     ", process_count(vm));
 	j = print_players(vm->player);
-	mvprintw(j, Y_1 + 3, "CYCLE_TO_DIE : %d", vm->cycle_to_die);
-	mvprintw(j + 2, Y_1 + 3, "CYCLE_DELTA : %d", CYCLE_DELTA);
-	mvprintw(j + 4, Y_1 + 3, "NBR_LIVE : %d", NBR_LIVE);
-	mvprintw(j + 6, Y_1 + 3, "MAX_CHECKS : %d", MAX_CHECKS);
+	mvprintw(j, Y_1 + 3, "CYCLE_TO_DIE : %d   ", vm->cycle_to_die);
+	mvprintw(j + 2, Y_1 + 3, "CYCLE_DELTA : %d   ", CYCLE_DELTA);
+	mvprintw(j + 4, Y_1 + 3, "NBR_LIVE : %d   ", NBR_LIVE);
+	mvprintw(j + 6, Y_1 + 3, "MAX_CHECKS : %d   ", MAX_CHECKS);
 	attroff(COLOR_PAIR(12) | A_BOLD);
 	draw_map(vm);
 	draw_carrys(vm);
+	if (vm->game_on == 0)
+		announce_winner(vm, j);
 	refresh();
 }

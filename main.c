@@ -194,7 +194,12 @@ void	game_move(t_vm *vm)
 		decrease_cycle_to_die(vm);
 		vm->cycle_ = 0;
 		if (vm->game_on == 0)
-			print_victory(vm, 1);
+		{
+			if (vm->visual_mode == 1)
+				visualization(vm);
+			else
+				print_victory(vm, 1);
+		}
 	}
 	if (vm->cycle == vm->nbr_cycles)
 	{
@@ -211,6 +216,7 @@ void	start_game(t_vm *vm)
 	t_player	*tmp;
 
 	vm->paused = 1;
+	vm->fps = 50;
 	if (vm->player == NULL)
 		print_usage();
 	sort_players(vm);
