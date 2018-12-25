@@ -129,7 +129,7 @@ void					ex_aff(t_process *pr);
 void					ex_lfork(t_process *pr);
 void					print_intro(t_vm *vm);
 void					print_command(t_process *pr, int l);
-
+void					read_key(t_vm *vm);
 void					initiate_visualization(void); //// added by Julia
 void					visualization(t_vm *vm);
 
