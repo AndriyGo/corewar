@@ -14,23 +14,23 @@
 
 void	print_usage(void)
 {
-	ft_printf("Usage: ./corewar [-dump nbr_cycles] \
-		[-v] [[-n number] champion1.cor] ...\n");
+	ft_printf("Usage: ./corewar [-dump nbr_cycles] "
+		"[-v] [[-n number] champion1.cor] ...\n");
 	ft_printf("   -dump:\n");
-	ft_printf("        after nbr_cycles of executions, memory is dumped \
-		on standard output and the game terminates\n");
+	ft_printf("        after nbr_cycles of executions, memory is dumped "
+		"on standard output and the game terminates\n");
 	ft_printf("   -v:\n");
 	ft_printf("        visual mode.\n");
 	ft_printf("   -l:\n");
 	ft_printf("        log mode.\n");
 	ft_printf("   -n:\n");
 	ft_printf("        specifies custom player number.\n");
-	ft_printf("        IMPORTANT: it is your responsibility to ensure \
-		that number is valid.\n");
-	ft_printf("        E.g. a game cannot be played between 2 players \
-		with numbers 1 and 3!\n");
-	ft_printf("NOTE: a game must contain between 1 and \
-		%d players!\n", MAX_PLAYERS);
+	ft_printf("        IMPORTANT: it is your responsibility to ensure "
+		"that number is valid.\n");
+	ft_printf("        E.g. a game cannot be played between 2 players "
+		"with numbers 1 and 3!\n");
+	ft_printf("NOTE: a game must contain between 1 and "
+		"%d players!\n", MAX_PLAYERS);
 	exit(0);
 }
 
@@ -165,8 +165,8 @@ t_player	*print_victory(t_vm *vm, int print)
 		tmp = tmp->next;
 	}
 	if (print)
-		ft_printf("Contestant %d, \"%s\", \
-			has won !\n", winner->n, winner->name);
+		ft_printf("Contestant %d, \"%s\", "
+			"has won !\n", winner->n, winner->name);
 	return (winner);
 }
 
@@ -194,7 +194,12 @@ void	game_move(t_vm *vm)
 		decrease_cycle_to_die(vm);
 		vm->cycle_ = 0;
 		if (vm->game_on == 0)
-			print_victory(vm, 1);
+		{
+			if (vm->visual_mode == 1)
+				visualization(vm);
+			else
+				print_victory(vm, 1);
+		}
 	}
 	if (vm->cycle == vm->nbr_cycles)
 	{
@@ -210,6 +215,8 @@ void	start_game(t_vm *vm)
 	int			l;
 	t_player	*tmp;
 
+	vm->paused = 1;
+	vm->fps = 50;
 	if (vm->player == NULL)
 		print_usage();
 	sort_players(vm);

@@ -12,26 +12,50 @@
 
 #include "corewarvm.h"
 
-void	pause_(t_vm *vm)
+static void		parse_keys(t_vm *vm)
 {
-	int	key;
+	int key;
 
-	key = 0;
-	mvprintw(2, Y_1 + 3, "** PAUSED **");
-	while (key != 32)
+	key = getch();
+	if (key == 32)
+		vm->paused = 1;
+	else if (key == 113 && vm->fps > 1)
+		vm->fps = (vm->fps - 10 < 1 ? 1 : vm->fps - 10);
+	else if (key == 119 && vm->fps > 1)
+		vm->fps -= 1;
+	else if (key == 101 && vm->fps < 1000)
+		vm->fps += 1;
+	else if (key == 114 && vm->fps < 1000)
+		vm->fps = (vm->fps + 10 > 1000 ? 1000 : vm->fps + 10);
+	else if (key == 27)
 	{
-		key = getch();
+		endwin();
+		exit(0);
 	}
-	vm->paused = 0;
-	mvprintw(2, Y_1 + 3, "** RUNNING **");
+	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d   ", vm->fps);
 }
 
-void	read_key(t_vm *vm)
+static void		pause_(t_vm *vm)
 {
-	int	key;
+	wattron(stdscr, A_BOLD);
+	mvprintw(2, Y_1 + 3, "** PAUSED  **");
+	while (1)
+	{
+		vm->paused = 0;
+		parse_keys(vm);
+		if (vm->paused == 1)
+		{
+			vm->paused = 0;
+			break ;
+		}
+	}
+	mvprintw(2, Y_1 + 3, "** RUNNING **");
+	wattroff(stdscr, A_BOLD);
+}
 
-	if (vm->paused)
+void			read_key(t_vm *vm)
+{
+	parse_keys(vm);
+	if (vm->paused == 1)
 		pause_(vm);
-	timeout(1000 / vm->c_per_sec);
-	key = getch();
 }
