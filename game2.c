@@ -29,13 +29,13 @@ void	ex_load(t_process *pr)
 
 	pr->l_size = 4;
 	codage = read_codage(pr->vm, pr, 2);
+	print_command(pr, codage->to_skip);
 	if ((codage->valid == 1) && ((codage->type[0] == T_DIR) || \
 		(codage->type[0] == 3)) && (codage->type[1] == T_REG))
 	{
 		pr->reg[codage->raw_value[1]] = codage->value[0];
 		pr->carry = (pr->reg[codage->raw_value[1]] == 0);
 	}
-	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -52,7 +52,7 @@ void	ex_st(t_process *pr)
 			pr->reg[codage->raw_value[1]] = codage->value[0];
 		else
 			dump_to_mem(pr, 4, codage->value[0],
-				next_pc(pr->pc, codage->value[1]));
+				next_pc(pr->pc, codage->raw_value[1] % IDX_MOD));
 	}
 	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);

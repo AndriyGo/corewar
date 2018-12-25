@@ -14,10 +14,10 @@
 
 void	print_usage(void)
 {
-	ft_printf("Usage: ./corewar [-dump nbr_cycles]
+	ft_printf("Usage: ./corewar [-dump nbr_cycles] \
 		[-v] [[-n number] champion1.cor] ...\n");
 	ft_printf("   -dump:\n");
-	ft_printf("        after nbr_cycles of executions, memory is dumped
+	ft_printf("        after nbr_cycles of executions, memory is dumped \
 		on standard output and the game terminates\n");
 	ft_printf("   -v:\n");
 	ft_printf("        visual mode.\n");
@@ -25,11 +25,11 @@ void	print_usage(void)
 	ft_printf("        log mode.\n");
 	ft_printf("   -n:\n");
 	ft_printf("        specifies custom player number.\n");
-	ft_printf("        IMPORTANT: it is your responsibility to ensure
+	ft_printf("        IMPORTANT: it is your responsibility to ensure \
 		that number is valid.\n");
-	ft_printf("        E.g. a game cannot be played between 2 players
+	ft_printf("        E.g. a game cannot be played between 2 players \
 		with numbers 1 and 3!\n");
-	ft_printf("NOTE: a game must contain between 1 and
+	ft_printf("NOTE: a game must contain between 1 and \
 		%d players!\n", MAX_PLAYERS);
 	exit(0);
 }
@@ -165,7 +165,7 @@ t_player	*print_victory(t_vm *vm, int print)
 		tmp = tmp->next;
 	}
 	if (print)
-		ft_printf("Contestant %d, \"%s\",
+		ft_printf("Contestant %d, \"%s\", \
 			has won !\n", winner->n, winner->name);
 	return (winner);
 }

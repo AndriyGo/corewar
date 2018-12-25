@@ -52,9 +52,10 @@ void	ex_aff(t_process *pr)
 	codage = read_codage(pr->vm, pr, 1);
 	if ((codage->valid == 1) && (codage->type[0] == T_REG))
 	{
-		ft_printf("%c", codage->value[0]);
+		if (!pr->vm->visual_mode && (!pr->vm->log))
+			ft_printf("%c", codage->value[0]);
+		print_command(pr, codage->to_skip);
 	}
-	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
