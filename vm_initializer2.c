@@ -6,11 +6,9 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	t_process	*tmp;
 	int			i;
 
-	ft_printf("pr 1\n");
 	if (((process = ft_memalloc(sizeof(t_process))) == NULL) || \
 		((process->reg = ft_memalloc(REG_NUMBER * sizeof(int))) == NULL))
 		die("Error: Out of memory!");
-	ft_printf("pr 2\n");
 	i = 0;
 	while (i < REG_NUMBER)
 		process->reg[i++] = 0;
