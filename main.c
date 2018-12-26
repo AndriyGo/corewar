@@ -126,7 +126,8 @@ void	remove_dead_p(t_vm *vm)
 			tmp = tmp->next;
 		}
 	}
-	vm->game_on = (vm->process != NULL);
+	if (vm->process == NULL)
+		vm->game_on = 0;
 }
 
 void	decrease_cycle_to_die(t_vm *vm)
@@ -149,25 +150,10 @@ void	decrease_cycle_to_die(t_vm *vm)
 
 t_player	*print_victory(t_vm *vm, int print)
 {
-	t_player	*winner;
-	t_player	*tmp;
-	int			max_live;
-
-	max_live = 0;
-	tmp = vm->player;
-	while (tmp)
-	{
-		if (tmp->last_live >= max_live)
-		{
-			max_live = tmp->last_live;
-			winner = tmp;
-		}
-		tmp = tmp->next;
-	}
 	if (print)
 		ft_printf("Contestant %d, \"%s\", "
-			"has won !\n", winner->n, winner->name);
-	return (winner);
+			"has won !\n", vm->winner->n, vm->winner->name);
+	return (vm->winner);
 }
 
 void	game_move(t_vm *vm)
@@ -177,7 +163,7 @@ void	game_move(t_vm *vm)
 	vm->cycle += 1;
 	vm->cycle_ += 1;
 	tmp = vm->process;
-	while (tmp)
+	while (tmp && (vm->cycle_to_die > 0))
 	{
 		tik_process(tmp);
 		tmp = tmp->next;
@@ -187,7 +173,7 @@ void	game_move(t_vm *vm)
 		visualization(vm);
 		read_key(vm);
 	}
-	if (vm->cycle_ == vm->cycle_to_die)
+	if ((vm->cycle_ == vm->cycle_to_die) || (vm->cycle_to_die < 0))
 	{
 		remove_dead_p(vm);
 		vm->checks -= 1;
@@ -199,6 +185,7 @@ void	game_move(t_vm *vm)
 				visualization(vm);
 			else
 				print_victory(vm, 1);
+			exit(1);
 		}
 	}
 	if (vm->cycle == vm->nbr_cycles)
@@ -216,7 +203,7 @@ void	start_game(t_vm *vm)
 	t_player	*tmp;
 
 	vm->paused = 1;
-	vm->fps = 50;
+	vm->fps = 1000;
 	if (vm->player == NULL)
 		print_usage();
 	sort_players(vm);

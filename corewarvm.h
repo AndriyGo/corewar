@@ -84,6 +84,7 @@ typedef	struct			s_vm
 	char				visual_mode;
 	int					nbr_cycles;
 	int					fps;
+	t_player			*winner;
 	t_map_cell			**mem;
 	t_process			*process;
 	t_player			*player;

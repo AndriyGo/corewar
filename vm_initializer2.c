@@ -20,16 +20,8 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	process->vm = vm;
 	process->live = 0;
 	process->player = player;
-	process->next = NULL;
-	if (vm->process == NULL)
-		vm->process = process;
-	else
-	{
-		tmp = vm->process;
-		while(tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = process;
-	}
+	process->next = vm->process;
+	vm->process = process;
 }
 
 void		copy_process(t_vm *vm, t_process *ref)

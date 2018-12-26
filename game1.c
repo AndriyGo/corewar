@@ -22,23 +22,23 @@ void	load_instruction(t_process *pr)
 	}
 	else if ((pr->inst == 1) || (pr->inst == 4)
 		|| (pr->inst == 5) || (pr->inst == 13))
-		pr->delay = 9;
+		pr->delay = 10;
 	else if ((pr->inst == 2) || (pr->inst == 3))
-		pr->delay = 4;
-	else if ((pr->inst == 6) || (pr->inst == 7) || (pr->inst == 8))
 		pr->delay = 5;
+	else if ((pr->inst == 6) || (pr->inst == 7) || (pr->inst == 8))
+		pr->delay = 6;
 	else if (pr->inst == 9)
-		pr->delay = 19;
+		pr->delay = 20;
 	else if ((pr->inst == 10) || (pr->inst == 11))
-		pr->delay = 24;
+		pr->delay = 25;
 	else if (pr->inst == 12)
-		pr->delay = 799;
+		pr->delay = 800;
 	else if (pr->inst == 14)
-		pr->delay = 49;
+		pr->delay = 50;
 	else if (pr->inst == 15)
-		pr->delay = 999;
+		pr->delay = 1000;
 	else if (pr->inst == 16)
-		pr->delay = 1;
+		pr->delay = 2;
 }
 
 void	tik_process2(t_process *pr)
@@ -65,7 +65,7 @@ void	tik_process(t_process *pr)
 {
 	if (pr->inst == 0)
 		load_instruction(pr);
-	else if (pr->delay > 0)
+	if (pr->delay > 0)
 		pr->delay = pr->delay - 1;
 	if (pr->delay != 0 || pr->inst == 0)
 		return ;
@@ -105,6 +105,7 @@ void	ex_live(t_process *pr)
 		{
 			tmp->lives += 1;
 			tmp->last_live = pr->vm->cycle;
+			pr->vm->winner = tmp;
 			break ;
 		}
 		tmp = tmp->next;

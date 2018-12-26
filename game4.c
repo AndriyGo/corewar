@@ -52,9 +52,11 @@ void	ex_aff(t_process *pr)
 	codage = read_codage(pr->vm, pr, 1);
 	if ((codage->valid == 1) && (codage->type[0] == T_REG))
 	{
-		if (!pr->vm->visual_mode && (!pr->vm->log))
-			ft_printf("%c", codage->value[0]);
 		print_command(pr, codage->to_skip);
+		if (!pr->vm->visual_mode && (ft_isprint(codage->raw_value[0])))
+		{
+			ft_printf("%c", codage->raw_value[0]);
+		}
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
@@ -65,7 +67,7 @@ void	ex_lfork(t_process *pr)
 
 	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 	copy_process(pr->vm, pr);
-	pr->vm->process->pc = (pr->vm->process->pc + value) % MEM_SIZE;
+	pr->vm->process->pc = next_pc(pr->pc, value);
 	print_command(pr, 3);
 	pr->pc = next_pc(pr->pc, 3);
 }
