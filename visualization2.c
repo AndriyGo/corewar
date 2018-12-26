@@ -32,6 +32,7 @@ static void		parse_keys(t_vm *vm)
 		endwin();
 		exit(0);
 	}
+	wattron(stdscr, A_BOLD);
 	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d   ", vm->fps);
 }
 

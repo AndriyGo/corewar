@@ -171,6 +171,9 @@ void	game_move(t_vm *vm)
 	if (vm->visual_mode == 1)
 	{
 		visualization(vm);
+		while (clock() < vm->next_cycle_time)
+			read_key(vm);
+		vm->next_cycle_time = clock() + 1000000 / vm->fps;
 		read_key(vm);
 	}
 	if ((vm->cycle_ == vm->cycle_to_die) || (vm->cycle_to_die < 0))
@@ -202,8 +205,7 @@ void	start_game(t_vm *vm)
 	int			l;
 	t_player	*tmp;
 
-	vm->paused = 1;
-	vm->fps = 1000;
+	vm->next_cycle_time = clock() + 1000000 / vm->fps;
 	if (vm->player == NULL)
 		print_usage();
 	sort_players(vm);

@@ -19,6 +19,7 @@
 # include <sys/stat.h>
 # include <unistd.h> //////////////////////////// added by Julia
 # include <ncurses.h> ///////////
+# include <time.h>
 
 # define Y_1 196
 # define Y_2 57
@@ -84,6 +85,7 @@ typedef	struct			s_vm
 	char				visual_mode;
 	int					nbr_cycles;
 	int					fps;
+	clock_t				next_cycle_time;
 	t_player			*winner;
 	t_map_cell			**mem;
 	t_process			*process;

@@ -3,7 +3,6 @@
 void		add_process(t_vm *vm, int pc, t_player *player)
 {
 	t_process	*process;
-	t_process	*tmp;
 	int			i;
 
 	if (((process = ft_memalloc(sizeof(t_process))) == NULL) || \
