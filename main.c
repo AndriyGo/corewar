@@ -150,6 +150,17 @@ void	decrease_cycle_to_die(t_vm *vm)
 
 t_player	*print_victory(t_vm *vm, int print)
 {
+	t_player	*tmp;
+
+	if (vm->winner == NULL)
+	{
+		tmp = vm->player;
+		while (tmp)
+		{
+			vm->winner = tmp;
+			tmp = tmp->next;
+		}
+	}
 	if (print)
 		ft_printf("Contestant %d, \"%s\", "
 			"has won !\n", vm->winner->n, vm->winner->name);
