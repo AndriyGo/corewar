@@ -114,43 +114,6 @@ static void		draw_carrys(t_vm *vm)
 	}
 }
 
-int				print_players(t_player *pl)
-{
-	int			j;
-
-	j = 11;
-	while (pl)
-	{
-		mvprintw(j, Y_1 + 3, "Player %d :", pl->idx);
-		attron(COLOR_PAIR(-pl->idx));
-		mvprintw(j, Y_1 + 15, "%.42s", pl->name);
-		attroff(COLOR_PAIR(-pl->idx));
-		mvprintw(j + 1, Y_1 + 6, "Last live : % 21d   ", pl->last_live);
-		mvprintw(j + 2, Y_1 + 6, "Lives in current period : % 7d   ", pl->lives);
-		j += 4;
-		pl = pl->next;
-	}
-	return (j);
-}
-
-void			announce_winner(t_vm *vm, int j)
-{
-	t_player	*winner;
-
-	winner = print_victory(vm, 0);
-	attron(A_BOLD);
-	mvprintw(j + 8, Y_1 + 3, "the winner is : ");
-	attron(COLOR_PAIR(winner->n));
-	mvprintw(j + 8, Y_1 + 19, "%.38s", winner->name);
-	attroff(COLOR_PAIR(winner->n));
-	mvprintw(j + 10, Y_1 + 3, "Press any key to finish");
-	refresh();
-	while (getch() == -1)
-		;
-	endwin();
-	exit(0);
-}
-
 void			visualization(t_vm *vm)
 {
 	int			j;
