@@ -171,6 +171,11 @@ void	game_move(t_vm *vm)
 {
 	t_process	*tmp;
 
+	if (vm->cycle == vm->nbr_cycles)
+	{
+		dump(vm);
+		exit(-1);
+	}
 	vm->cycle += 1;
 	vm->cycle_ += 1;
 	tmp = vm->process;
@@ -198,11 +203,6 @@ void	game_move(t_vm *vm)
 				print_victory(vm, 1);
 			exit(1);
 		}
-	}
-	if (vm->cycle == vm->nbr_cycles)
-	{
-		dump(vm);
-		exit(-1);
 	}
 }
 

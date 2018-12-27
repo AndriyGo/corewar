@@ -79,12 +79,15 @@ void	ex_sti(t_process *pr)
 
 	pr->l_size = 2;
 	codage = read_codage(pr->vm, pr, 3);
+	print_command(pr, codage->to_skip);
 	if ((codage->valid == 1) && (codage->type[2] != 3) && \
 		(codage->type[0] == T_REG))
 	{
+		if (pr->vm->log)
+			ft_printf("Dump %d from %d to %04x\n", codage->value[0], codage->raw_value[0], next_pc(pr->pc,
+			(codage->value[1] + codage->value[2]) % IDX_MOD));
 		dump_to_mem(pr, 4, codage->value[0], next_pc(pr->pc,
 			(codage->value[1] + codage->value[2]) % IDX_MOD));
 	}
-	print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
