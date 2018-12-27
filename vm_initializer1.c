@@ -33,6 +33,7 @@ void	create_vm(t_vm **vm)
 	(*vm)->paused = 1;
 	(*vm)->winner = NULL;
 	(*vm)->fps = 50;
+	(*vm)->p_n = 1;
 	if (((*vm)->mem = ft_memalloc(MEM_SIZE * sizeof(t_map_cell *))) == NULL)
 		die("Error: Out of memory!");
 	i = 0;

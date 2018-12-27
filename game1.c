@@ -110,7 +110,9 @@ void	ex_live(t_process *pr)
 		}
 		tmp = tmp->next;
 	}
-	print_command(pr, 5);
+	if (pr->vm->log)
+		ft_printf("P %4u | live %d\n", pr->n, value);
+	//print_command(pr, 5);
 	pr->pc = next_pc(pr->pc, 5);
 }
 
@@ -118,11 +120,15 @@ void	ex_zjmp(t_process *pr)
 {
 	short	value;
 
-	print_command(pr, 3);
+	//print_command(pr, 3);
+	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
+	if (pr->vm->log)
+		ft_printf("P %4u | zjmp %d %s\n", pr->n, value, pr->carry ? "OK" : "FAILED");
 	if (pr->carry == 1)
 	{
-		value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 		pr->pc = next_pc(pr->pc, value % IDX_MOD);
+		//if (pr->vm->log)
+			//ft_printf("\tjump to 0x%04x (%d, %d)\n", pr->pc, value, value % IDX_MOD);
 	}
 	else
 		pr->pc = next_pc(pr->pc, 3);

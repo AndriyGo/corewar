@@ -30,6 +30,7 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	process->inst = 0;
 	process->vm = vm;
 	process->live = 0;
+	process->n = vm->p_n++;
 	process->player = player;
 	process->next = vm->process;
 	vm->process = process;
@@ -54,6 +55,7 @@ void		copy_process(t_vm *vm, t_process *ref)
 	process->live = ref->live;
 	process->player = ref->player;
 	process->next = vm->process;
+	process->n = vm->p_n++;
 	vm->process = process;
 }
 

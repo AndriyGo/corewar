@@ -238,9 +238,10 @@ void	start_game(t_vm *vm)
 		i += l;
 		tmp = tmp->next;
 	}
-	print_intro(vm);
 	if (vm->visual_mode == 1)
 		initiate_visualization();
+	else
+		print_intro(vm);
 	while (vm->game_on == 1)
 		game_move(vm);
 	while (1)

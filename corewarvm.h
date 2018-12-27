@@ -49,6 +49,7 @@ typedef	struct			s_process
 	int					delay;
 	int					live;
 	int					l_size;
+	int					n;
 	unsigned char		inst;
 	struct s_process	*next;
 	struct s_vm			*vm;
@@ -82,6 +83,7 @@ typedef	struct			s_vm
 	int					paused;
 	int					c_per_sec;
 	int					lives;
+	int					p_n;
 	char				visual_mode;
 	int					nbr_cycles;
 	int					fps;
