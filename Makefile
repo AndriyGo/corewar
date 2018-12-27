@@ -15,14 +15,17 @@ SRCS	= 	main.c \
 			visualization1.c \
 			visualization2.c\
 
+INC		=	corewarvm.h \
+			op.h
+
 OBJS	=	$(SRCS:.c=.o)
 
 all: $(NAME)
 
-%.o : %.c
+%.o : %.c $(INC)
 	@gcc -Wall -Wextra -c $< -o $@
 
-$(NAME): libft $(OBJS)
+$(NAME): libft $(OBJS) $(INC)
 	@gcc -lncurses -o $(NAME) $(OBJS) libft/libft.a
 
 .PHONY: libft

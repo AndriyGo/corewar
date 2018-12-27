@@ -17,8 +17,9 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/stat.h>
-# include <unistd.h> //////////////////////////// added by Julia
-# include <ncurses.h> ///////////
+# include <unistd.h>
+# include <ncurses.h>
+# include <time.h>
 
 # define Y_1 196
 # define Y_2 57
@@ -84,6 +85,7 @@ typedef	struct			s_vm
 	char				visual_mode;
 	int					nbr_cycles;
 	int					fps;
+	clock_t				next_cycle_time;
 	t_player			*winner;
 	t_map_cell			**mem;
 	t_process			*process;
@@ -110,6 +112,7 @@ void					copy_process(t_vm *vm, t_process *ref);
 t_codage				*read_codage(t_vm *vm, t_process *process, int nf);
 void					dump_to_mem(t_process *pr, int len, int val, int idx);
 t_codage				*init_codage();
+int						print_players(t_player *pl);
 int						process_count(t_vm *vm);
 unsigned long			bot_length(char *file);
 void					ex_live(t_process *pr);
@@ -131,8 +134,9 @@ void					ex_aff(t_process *pr);
 void					ex_lfork(t_process *pr);
 void					print_intro(t_vm *vm);
 void					print_command(t_process *pr, int l);
+void					announce_winner(t_vm *vm, int j);
 void					read_key(t_vm *vm);
-void					initiate_visualization(void); //// added by Julia
+void					initiate_visualization(void);
 void					visualization(t_vm *vm);
 t_player				*print_victory(t_vm *vm, int print);
 
