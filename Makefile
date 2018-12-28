@@ -3,8 +3,11 @@ NAME	=	corewar
 SRCS	= 	main.c \
 			vm_initializer1.c \
 			vm_initializer2.c \
+			vm_initializer3.c \
 			helper1.c \
 			helper2.c \
+			helper3.c \
+			helper4.c \
 			validator1.c \
 			data_reader.c \
 			outputter1.c \

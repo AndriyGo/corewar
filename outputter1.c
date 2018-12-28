@@ -32,18 +32,21 @@ void	dump(t_vm *vm)
 {
 	int	i;
 
-	i = 1;
-	ft_printf("0x%04x : ", i - 1);
-	while (i <= MEM_SIZE)
+	if (vm->cycle == vm->nbr_cycles)
 	{
-		ft_printf("%02x ", vm->mem[i - 1]->value);
-		if (i % 64 == 0)
+		i = 1;
+		ft_printf("0x%04x : ", i - 1);
+		while (i <= MEM_SIZE)
 		{
-			ft_printf("\n");
-			if (i < MEM_SIZE)
-				ft_printf("0x%04x : ", i);
+			ft_printf("%02x ", vm->mem[i - 1]->value);
+			if (i % 64 == 0)
+			{
+				ft_printf("\n");
+				if (i < MEM_SIZE)
+					ft_printf("0x%04x : ", i);
+			}
+			i++;
 		}
-		i++;
+		exit(0);
 	}
-	exit(0);
 }

@@ -118,6 +118,8 @@ void			visualization(t_vm *vm)
 {
 	int			j;
 
+	if (vm->visual_mode == 0)
+		return ;
 	attron(COLOR_PAIR(12) | A_BOLD);
 	mvprintw(4, Y_1 + 3, "Cycles/second limit : %d   ", vm->fps);
 	mvprintw(6, Y_1 + 3, "Total cycle : %d   ", (vm)->cycle);
@@ -134,4 +136,8 @@ void			visualization(t_vm *vm)
 	if (vm->game_on == 0)
 		announce_winner(vm, j);
 	refresh();
+	while (clock() < vm->next_cycle_time)
+		read_key(vm);
+	vm->next_cycle_time = clock() + 1000000 / vm->fps;
+	read_key(vm);
 }

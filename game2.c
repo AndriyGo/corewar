@@ -19,9 +19,9 @@ void	ex_fork(t_process *pr)
 	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 	copy_process(pr->vm, pr);
 	pr->vm->process->pc = next_pc(pr->pc, value % IDX_MOD);
-	//print_command(pr, 3);
 	if (pr->vm->log)
-		ft_printf("P %4u | fork %d (%d)\n", pr->n, value, pr->pc + (value % IDX_MOD));
+		ft_printf("P %4u | fork %d (%d)\n", pr->n, value, 
+			pr->pc + (value % IDX_MOD));
 	pr->pc = next_pc(pr->pc, 3);
 }
 
@@ -31,14 +31,14 @@ void	ex_load(t_process *pr)
 
 	pr->l_size = 4;
 	codage = read_codage(pr->vm, pr, 2);
-	//print_command(pr, codage->to_skip);
 	if ((codage->valid == 1) && ((codage->type[0] == T_DIR) || \
 		(codage->type[0] == 3)) && (codage->type[1] == T_REG))
 	{
 		pr->reg[codage->raw_value[1]] = codage->value[0];
 		pr->carry = (pr->reg[codage->raw_value[1]] == 0);
 		if (pr->vm->log)
-			ft_printf("P %4u | ld %d r%d\n", pr->n, codage->value[0], codage->raw_value[1] + 1);
+			ft_printf("P %4u | ld %d r%d\n", pr->n, codage->value[0], 
+				codage->raw_value[1] + 1);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
@@ -56,17 +56,18 @@ void	ex_st(t_process *pr)
 		{
 			pr->reg[codage->raw_value[1]] = codage->value[0];
 			if (pr->vm->log)
-				ft_printf("P %4u | st r%d %d\n", pr->n, codage->raw_value[0] + 1, codage->raw_value[1] + 1);
+				ft_printf("P %4u | st r%d %d\n", pr->n, 
+					codage->raw_value[0] + 1, codage->raw_value[1] + 1);
 		}
 		else
 		{
 			dump_to_mem(pr, 4, codage->value[0],
 				next_pc(pr->pc, codage->raw_value[1] % IDX_MOD));
 			if (pr->vm->log)
-				ft_printf("P %4u | st r%d %d\n", pr->n, codage->raw_value[0] + 1, codage->raw_value[1]);
+				ft_printf("P %4u | st r%d %d\n", pr->n, 
+					codage->raw_value[0] + 1, codage->raw_value[1]);
 		}
 	}
-	//print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -82,9 +83,10 @@ void	ex_add(t_process *pr)
 		pr->reg[codage->raw_value[2]] = codage->value[0] + codage->value[1];
 		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 		if (pr->vm->log)
-			ft_printf("P %4u | add r%d r%d r%d\n", pr->n, codage->raw_value[0] + 1, codage->raw_value[1] + 1, codage->raw_value[2] + 1);
+			ft_printf("P %4u | add r%d r%d r%d\n", pr->n, 
+				codage->raw_value[0] + 1, codage->raw_value[1] + 1, 
+				codage->raw_value[2] + 1);
 	}
-	//print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -100,8 +102,9 @@ void	ex_sub(t_process *pr)
 		pr->reg[codage->raw_value[2]] = codage->value[0] - codage->value[1];
 		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 		if (pr->vm->log)
-			ft_printf("P %4u | sub r%d r%d r%d\n", pr->n, codage->raw_value[0] + 1, codage->raw_value[1] + 1, codage->raw_value[2] + 1);
+			ft_printf("P %4u | sub r%d r%d r%d\n", pr->n, 
+				codage->raw_value[0] + 1, codage->raw_value[1] + 1, 
+				codage->raw_value[2] + 1);
 	}
-	//print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }

@@ -24,9 +24,9 @@ void	ex_lld(t_process *pr)
 		pr->reg[codage->raw_value[1]] = codage->value[0];
 		pr->carry = (pr->reg[codage->raw_value[1]] == 0);
 		if (pr->vm->log)
-			ft_printf("P %4u | lld %d r%d\n", pr->n, codage->value[0], codage->raw_value[1] + 1);
+			ft_printf("P %4u | lld %d r%d\n", pr->n, codage->value[0], 
+				codage->raw_value[1] + 1);
 	}
-	//print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -44,12 +44,14 @@ void	ex_lldi(t_process *pr)
 		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 		if (pr->vm->log)
 		{
-			ft_printf("P %4u | lldi %d %d r%d\n", pr->n, codage->value[0], codage->value[1], codage->raw_value[2] + 1);
-			ft_printf("       | -> load from %d + %d = %d ",codage->value[0], codage->value[1], codage->value[0] + codage->value[1]);
-			ft_printf("(with pc %d)\n", pr->pc + codage->value[0] + codage->value[1]);
+			ft_printf("P %4u | lldi %d %d r%d\n", pr->n, codage->value[0], 
+				codage->value[1], codage->raw_value[2] + 1);
+			ft_printf("       | -> load from %d + %d = %d ",codage->value[0], 
+				codage->value[1], codage->value[0] + codage->value[1]);
+			ft_printf("(with pc %d)\n", 
+				pr->pc + codage->value[0] + codage->value[1]);
 		}
 	}
-	//print_command(pr, codage->to_skip);
 	pr->pc = next_pc(pr->pc, codage->to_skip);
 }
 
@@ -61,7 +63,6 @@ void	ex_aff(t_process *pr)
 	codage = read_codage(pr->vm, pr, 1);
 	if ((codage->valid == 1) && (codage->type[0] == T_REG))
 	{
-		//print_command(pr, codage->to_skip);
 		if (!pr->vm->visual_mode && (ft_isprint(codage->raw_value[0])))
 		{
 			ft_printf("%c", codage->raw_value[0]);
@@ -77,8 +78,8 @@ void	ex_lfork(t_process *pr)
 	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 	copy_process(pr->vm, pr);
 	pr->vm->process->pc = next_pc(pr->pc, value);
-	//print_command(pr, 3);
 	if (pr->vm->log)
-		ft_printf("P %4u | lfork %d (%d)\n", pr->n, value, pr->pc + value % IDX_MOD);
+		ft_printf("P %4u | lfork %d (%d)\n", pr->n, value, 
+			pr->pc + value % IDX_MOD);
 	pr->pc = next_pc(pr->pc, 3);
 }

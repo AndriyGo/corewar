@@ -124,7 +124,7 @@ void	add_player(t_vm *vm, char *file, int idx)
 	}
 }
 
-void	create_player(t_vm *vm, char *filename, int idx)
+void	create_player(t_vm *vm, char *filename, int *idx)
 {
 	int				fd;
 	char			*tmp;
@@ -145,6 +145,7 @@ void	create_player(t_vm *vm, char *filename, int idx)
 		free(tmp);
 	}
 	validate_file(file);
-	add_player(vm, file, idx);
+	add_player(vm, file, *idx);
 	free(file);
+	*idx = -1;
 }

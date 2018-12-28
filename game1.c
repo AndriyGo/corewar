@@ -43,7 +43,11 @@ void	load_instruction(t_process *pr)
 
 void	tik_process2(t_process *pr)
 {
-	if (pr->inst == 9)
+	if (pr->inst == 7)
+		ex_or(pr);
+	else if (pr->inst == 8)
+		ex_xor(pr);
+	else if (pr->inst == 9)
 		ex_zjmp(pr);
 	else if (pr->inst == 10)
 		ex_ldi(pr);
@@ -61,33 +65,33 @@ void	tik_process2(t_process *pr)
 		ex_aff(pr);
 }
 
-void	tik_process(t_process *pr)
+void	tik_process(t_process **pr)
 {
-	if (pr->inst == 0)
-		load_instruction(pr);
-	if (pr->delay > 0)
-		pr->delay = pr->delay - 1;
-	if (pr->delay != 0 || pr->inst == 0)
+	if ((*pr)->inst == 0)
+		load_instruction(*pr);
+	if ((*pr)->delay > 0)
+		(*pr)->delay = (*pr)->delay - 1;
+	if ((*pr)->delay != 0 || (*pr)->inst == 0)
+	{
+		(*pr) = (*pr)->next;
 		return ;
-	if (pr->inst == 1)
-		ex_live(pr);
-	else if (pr->inst == 2)
-		ex_load(pr);
-	else if (pr->inst == 3)
-		ex_st(pr);
-	else if (pr->inst == 4)
-		ex_add(pr);
-	else if (pr->inst == 5)
-		ex_sub(pr);
-	else if (pr->inst == 6)
-		ex_and(pr);
-	else if (pr->inst == 7)
-		ex_or(pr);
-	else if (pr->inst == 8)
-		ex_xor(pr);
+	}
+	if ((*pr)->inst == 1)
+		ex_live(*pr);
+	else if ((*pr)->inst == 2)
+		ex_load(*pr);
+	else if ((*pr)->inst == 3)
+		ex_st(*pr);
+	else if ((*pr)->inst == 4)
+		ex_add(*pr);
+	else if ((*pr)->inst == 5)
+		ex_sub(*pr);
+	else if ((*pr)->inst == 6)
+		ex_and(*pr);
 	else
-		tik_process2(pr);
-	pr->inst = 0;
+		tik_process2(*pr);
+	(*pr)->inst = 0;
+	(*pr) = (*pr)->next;
 }
 
 void	ex_live(t_process *pr)
@@ -120,15 +124,13 @@ void	ex_zjmp(t_process *pr)
 {
 	short	value;
 
-	//print_command(pr, 3);
 	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 	if (pr->vm->log)
-		ft_printf("P %4u | zjmp %d %s\n", pr->n, value, pr->carry ? "OK" : "FAILED");
+		ft_printf("P %4u | zjmp %d %s\n", pr->n, value, 
+			pr->carry ? "OK" : "FAILED");
 	if (pr->carry == 1)
 	{
 		pr->pc = next_pc(pr->pc, value % IDX_MOD);
-		//if (pr->vm->log)
-			//ft_printf("\tjump to 0x%04x (%d, %d)\n", pr->pc, value, value % IDX_MOD);
 	}
 	else
 		pr->pc = next_pc(pr->pc, 3);
