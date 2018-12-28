@@ -107,6 +107,9 @@ void	ex_live(t_process *pr)
 	{
 		if (tmp->idx == (int)value)
 		{
+			if (pr->vm->log == 0)
+				ft_printf("A process shows that player %d (%s) is alive",
+					tmp->idx, tmp->name);
 			tmp->lives += 1;
 			tmp->last_live = pr->vm->cycle;
 			pr->vm->winner = tmp;
@@ -116,7 +119,6 @@ void	ex_live(t_process *pr)
 	}
 	if (pr->vm->log)
 		ft_printf("P %4u | live %d\n", pr->n, value);
-	//print_command(pr, 5);
 	pr->pc = next_pc(pr->pc, 5);
 }
 

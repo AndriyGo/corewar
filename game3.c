@@ -93,7 +93,6 @@ void	ex_sti(t_process *pr)
 
 	pr->l_size = 2;
 	codage = read_codage(pr->vm, pr, 3);
-	//print_command(pr, codage->to_skip);
 	if ((codage->valid == 1) && (codage->type[2] != 3) && \
 		(codage->type[0] == T_REG))
 	{
