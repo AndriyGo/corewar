@@ -36,12 +36,12 @@ void		game_move(t_vm *vm)
 	t_process	*tmp;
 
 	dump(vm);
+	visualization(vm);
 	vm->cycle += 1;
 	vm->cycle_ += 1;
 	tmp = vm->process;
 	while (tmp && (vm->cycle_to_die > 0))
 		tik_process(&tmp);
-	visualization(vm);
 	if ((vm->cycle_ == vm->cycle_to_die) || (vm->cycle_to_die < 0))
 	{
 		remove_dead_p(vm);
