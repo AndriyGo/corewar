@@ -20,7 +20,7 @@ void	create_player2(t_vm *vm, char *filename, int idx)
 	unsigned char	c[1];
 	char			*file;
 
-	if (((tmp = ft_strstr(filename, ".cor")) == NULL) || (tmp + 4 != 0))
+	if (((tmp = ft_strstr(filename, ".cor")) == NULL) || (*(tmp + 4) != 0))
 		die("Error: Champion file must have .cor extension!");
 	if ((fd = open(filename, O_RDONLY, 0)) == -1)
 		die("Error: Cannot open champion file!");
@@ -92,7 +92,7 @@ void	create_player(t_vm *vm, char *filename, int *idx)
 	unsigned char	c[1];
 	char			*file;
 
-	if (((tmp = ft_strstr(filename, ".cor")) == NULL) || (tmp + 4 != 0))
+	if (((tmp = ft_strstr(filename, ".cor")) == NULL) || (*(tmp + 4) != 0))
 		die("Error: Champion file must have .cor extension!");
 	if ((fd = open(filename, O_RDONLY, 0)) == -1)
 		die("Error: Cannot open champion file!");
