@@ -50,8 +50,8 @@ int		comapare_two_bots(int cycle, string a, string b, int v_flag)
 	char			buf[512];
 	char			buf2[512];
 
-	sprintf(buf, "./orig_corewar -d %d %s %s", cycle, a.c_str(), b.c_str());
-	sprintf(buf2, "./corewar -dump %d %s %s", cycle, a.c_str(), b.c_str());
+	sprintf(buf, "./orig_corewar -d %d %s %s", cycle, b.c_str(), a.c_str());
+	sprintf(buf2, "./corewar -dump %d %s %s", cycle, b.c_str(), a.c_str());
 	return (find_diference(buf, buf2, v_flag));
 }
 
@@ -70,8 +70,8 @@ int		comapare_four_bots(int cycle, string a, string b, string c, string d, int v
 	char			buf[512];
 	char			buf2[512];
 
-	sprintf(buf, "./orig_corewar -d %d %s %s %s %s", cycle, a.c_str(), b.c_str(), c.c_str(), d.c_str());
-	sprintf(buf2, "./corewar -dump %d %s %s %s %s", cycle, a.c_str(), b.c_str(), c.c_str(), d.c_str());
+	sprintf(buf, "./orig_corewar -d %d %s %s %s %s", cycle, d.c_str(), c.c_str(), a.c_str(), b.c_str());
+	sprintf(buf2, "./corewar -dump %d -n 4 %s -n 3 %s -n 1 %s -n 2 %s", cycle, a.c_str(), b.c_str(), c.c_str(), d.c_str());
 	return (find_diference(buf, buf2, v_flag));
 }
 

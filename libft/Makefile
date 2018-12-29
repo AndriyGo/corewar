@@ -97,10 +97,10 @@ INC		=	libft.h
 all: $(NAME)
 
 %.o : %.c
-	gcc -Wall -Wextra -Werror -c $< -o $@
+	@gcc -Wall -Wextra -Werror -c $< -o $@
 
 $(NAME): $(OBJS)
-	ar rc $(NAME) $(OBJS)
+	@ar rc $(NAME) $(OBJS)
 
 clean:
 	rm -f *.o

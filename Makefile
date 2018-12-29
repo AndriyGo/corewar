@@ -1,6 +1,8 @@
-NAME	=	corewar
+AS_NAME =	asm
 
-SRCS	= 	main.c \
+VM_NAME	=	corewar
+
+VM_SRS	= 	main.c \
 			vm_initializer1.c \
 			vm_initializer2.c \
 			vm_initializer3.c \
@@ -17,23 +19,29 @@ SRCS	= 	main.c \
 			game4.c \
 			visualization1.c \
 			visualization2.c\
+VM_DIR  =	vm_sources/
+VM_SRCS =	$(addprefix $(VM_DIR), $(VM_SRS))
 
-INC		=	corewarvm.h \
+VM_INC	=	vm_sources/corewarvm.h \
 			op.h
 
-OBJS	=	$(SRCS:.c=.o)
+VM_OBJS	=	$(VM_SRCS:.c=.o)
 
-all: $(NAME)
+all: 
+	make $(VM_NAME)
 
-%.o : %.c $(INC)
-	@gcc -Wall -Wextra -Werror -c $< -o $@
+%.o : %.c
+	gcc -Wall -Wextra -Werror -c $< -o $@
 
-$(NAME): libft $(OBJS) $(INC)
-	@gcc -lncurses -o $(NAME) $(OBJS) libft/libft.a
+$(VM_NAME): libft
+	gcc -lncurses -o $(VM_NAME) $(VM_OBJS) libft/libft.a
+
+$(VM_DIR):
+	@mkdir -p $(VM_DIR)
 
 .PHONY: libft
 libft:
-	make -C libft
+	@make -C libft
 
 clean:
 	rm -f *.o
