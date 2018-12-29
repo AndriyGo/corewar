@@ -128,7 +128,7 @@ void	ex_zjmp(t_process *pr)
 
 	value = read_bytes(pr->vm, next_pc(pr->pc, 1), 2);
 	if (pr->vm->log)
-		ft_printf("P %4u | zjmp %d %s\n", pr->n, value, 
+		ft_printf("P %4u | zjmp %d %s\n", pr->n, value,
 			pr->carry ? "OK" : "FAILED");
 	if (pr->carry == 1)
 	{

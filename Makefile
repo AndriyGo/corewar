@@ -26,7 +26,7 @@ OBJS	=	$(SRCS:.c=.o)
 all: $(NAME)
 
 %.o : %.c $(INC)
-	@gcc -Wall -Wextra -c $< -o $@
+	@gcc -Wall -Wextra -Werror -c $< -o $@
 
 $(NAME): libft $(OBJS) $(INC)
 	@gcc -lncurses -o $(NAME) $(OBJS) libft/libft.a

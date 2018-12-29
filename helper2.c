@@ -32,7 +32,6 @@ void	dump_to_mem(t_process *pr, int len, int val, int idx)
 	int	i;
 
 	i = 0;
-
 	while (i < len)
 	{
 		pr->vm->mem[next_pc(idx, i)]->value = ((val & 255 << ((8) *
@@ -65,7 +64,8 @@ void	print_command(t_process *pr, int l)
 	if (pr->vm->log == 0)
 		return ;
 	i = 0;
-	ft_printf("|CMD %05d| = %d (0x%04x -> 0x%04x) ", pr->vm->cycle, l, pr->pc, next_pc(pr->pc, l));
+	ft_printf("|CMD %05d| = %d (0x%04x -> 0x%04x) ", pr->vm->cycle, l,
+		pr->pc, next_pc(pr->pc, l));
 	while (i < l)
 	{
 		ft_printf("%02x ", pr->vm->mem[next_pc(pr->pc, i++)]->value);

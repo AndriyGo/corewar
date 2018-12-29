@@ -31,7 +31,7 @@ t_player	*print_victory(t_vm *vm, int print)
 	return (vm->winner);
 }
 
-void	game_move(t_vm *vm)
+void		game_move(t_vm *vm)
 {
 	t_process	*tmp;
 
@@ -59,7 +59,7 @@ void	game_move(t_vm *vm)
 	}
 }
 
-void	start_game2(t_vm *vm, int l, int i)
+void		start_game2(t_vm *vm, int l, int i)
 {
 	int			c;
 	t_player	*tmp;
@@ -88,9 +88,10 @@ void	start_game2(t_vm *vm, int l, int i)
 		game_move(vm);
 }
 
-void	start_game1(t_vm *vm)
+void		start_game1(t_vm *vm)
 {
 	int	l;
+
 	vm->next_cycle_time = clock() + 1000000 / vm->fps;
 	if (vm->player == NULL)
 		print_usage();
@@ -99,7 +100,7 @@ void	start_game1(t_vm *vm)
 	start_game2(vm, l, 0);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_vm	*vm;
 	int		i;

@@ -23,7 +23,7 @@ void	ex_and(t_process *pr)
 		pr->reg[codage->raw_value[2]] = codage->value[0] & codage->value[1];
 		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 		if (pr->vm->log)
-			ft_printf("P %4u | and %d %d r%d\n", pr->n, codage->value[0], 
+			ft_printf("P %4u | and %d %d r%d\n", pr->n, codage->value[0],
 				codage->value[1], codage->raw_value[2] + 1);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
@@ -40,7 +40,7 @@ void	ex_or(t_process *pr)
 		pr->reg[codage->raw_value[2]] = codage->value[0] | codage->value[1];
 		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 		if (pr->vm->log)
-			ft_printf("P %4u | or %d %d r%d\n", pr->n, codage->value[0], 
+			ft_printf("P %4u | or %d %d r%d\n", pr->n, codage->value[0],
 				codage->value[1], codage->raw_value[2] + 1);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
@@ -57,7 +57,7 @@ void	ex_xor(t_process *pr)
 		pr->reg[codage->raw_value[2]] = codage->value[0] ^ codage->value[1];
 		pr->carry = (pr->reg[codage->raw_value[2]] == 0);
 		if (pr->vm->log)
-			ft_printf("P %4u | xor %d %d r%d\n", pr->n, codage->value[0], 
+			ft_printf("P %4u | xor %d %d r%d\n", pr->n, codage->value[0],
 				codage->value[1], codage->raw_value[2] + 1);
 	}
 	pr->pc = next_pc(pr->pc, codage->to_skip);
@@ -76,11 +76,11 @@ void	ex_ldi(t_process *pr)
 		next_pc(pr->pc, (codage->value[0] + codage->value[1]) % IDX_MOD), 4);
 		if (pr->vm->log)
 		{
-			ft_printf("P %4u | ldi %d %d r%d\n", pr->n, codage->value[0], 
+			ft_printf("P %4u | ldi %d %d r%d\n", pr->n, codage->value[0],
 				codage->value[1], codage->raw_value[2] + 1);
-			ft_printf("       | -> load from %d + %d = %d ",codage->value[0], 
+			ft_printf("       | -> load from %d + %d = %d ", codage->value[0],
 				codage->value[1], codage->value[0] + codage->value[1]);
-			ft_printf("(with pc and mod %d)\n", 
+			ft_printf("(with pc and mod %d)\n",
 				pr->pc + (codage->value[0] + codage->value[1]) % IDX_MOD);
 		}
 	}
@@ -100,11 +100,11 @@ void	ex_sti(t_process *pr)
 			(codage->value[1] + codage->value[2]) % IDX_MOD));
 		if (pr->vm->log)
 		{
-			ft_printf("P %4u | sti r%d %d %d\n", pr->n, 
+			ft_printf("P %4u | sti r%d %d %d\n", pr->n,
 				codage->raw_value[0] + 1, codage->value[1], codage->value[2]);
-			ft_printf("       | -> store to %d + %d = %d ",codage->value[1], 
+			ft_printf("       | -> store to %d + %d = %d ", codage->value[1],
 				codage->value[2], codage->value[1] + codage->value[2]);
-			ft_printf("(with pc and mod %d)\n", 
+			ft_printf("(with pc and mod %d)\n",
 				pr->pc + (codage->value[1] + codage->value[2]) % IDX_MOD);
 		}
 	}
