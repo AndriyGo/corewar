@@ -71,10 +71,10 @@ static void		draw_map(t_vm *vm)
 
 	j = 0;
 	n = 2;
-	while (n < 66)
+	while (n < MEM_SIZE / 64 + 3 && (n - 2) * 64 != MEM_SIZE)
 	{
 		i = 3;
-		while (i <= 192)
+		while (i <= 192 && ((n - 2) * 64 + (i / 3)) <= MEM_SIZE)
 		{
 			if (vm->mem[j]->player != NULL)
 				attron(COLOR_PAIR(vm->mem[j]->player->idx * (-1)));
