@@ -92,6 +92,7 @@ void		start_game1(t_vm *vm)
 {
 	int	l;
 
+	vm->log = vm->log && (vm->visual_mode == 0);
 	vm->next_cycle_time = clock() + 1000000 / vm->fps;
 	if (vm->player == NULL)
 		print_usage();
