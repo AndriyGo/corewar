@@ -20,6 +20,8 @@ void	create_player2(t_vm *vm, char *filename, int idx)
 	unsigned char	c[1];
 	char			*file;
 
+	if (((tmp = ft_strstr(filename, ".cor")) == NULL) || (tmp + 4 != 0))
+		die("Error: Champion file must have .cor extension!");
 	if ((fd = open(filename, O_RDONLY, 0)) == -1)
 		die("Error: Cannot open champion file!");
 	if ((file = ft_memalloc(sizeof(char))) == NULL)
@@ -69,7 +71,7 @@ void	add_player(t_vm *vm, char *file, int idx)
 	p->name = string_from_binary(file, hex_len(COREWAR_EXEC_MAGIC) * 2,
 		PROG_NAME_LENGTH);
 	p->comment = string_from_binary(file,
-		(hex_len(COREWAR_EXEC_MAGIC) + PROG_NAME_LENGTH + 8) * 2 ,
+		(hex_len(COREWAR_EXEC_MAGIC) + PROG_NAME_LENGTH + 8) * 2,
 		COMMENT_LENGTH);
 	file += (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH + 12 + \
 		hex_len(COREWAR_EXEC_MAGIC)) * 2);
@@ -90,9 +92,7 @@ void	create_player(t_vm *vm, char *filename, int *idx)
 	unsigned char	c[1];
 	char			*file;
 
-	if ((tmp = ft_strstr(filename, ".cor")) == NULL)
-		die("Error: Champion file must have .cor extension!");
-	if (tmp + 4 != 0)
+	if (((tmp = ft_strstr(filename, ".cor")) == NULL) || (tmp + 4 != 0))
 		die("Error: Champion file must have .cor extension!");
 	if ((fd = open(filename, O_RDONLY, 0)) == -1)
 		die("Error: Cannot open champion file!");

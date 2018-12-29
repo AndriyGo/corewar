@@ -59,9 +59,9 @@ void		copy_process(t_vm *vm, t_process *ref)
 	vm->process = process;
 }
 
-t_codage	*init_codage()
+t_codage	*init_codage(void)
 {
-	int	i;
+	int			i;
 	t_codage	*ret;
 
 	if ((ret = ft_memalloc(sizeof(t_codage))) == NULL)
@@ -84,7 +84,8 @@ t_codage	*init_codage()
 	return (ret);
 }
 
-void		read_codage_octal(t_codage *codage, int idx, int octal, t_process *pr)
+void		read_codage_octal(t_codage *codage, int idx, int octal, \
+								t_process *pr)
 {
 	codage->type[idx] = octal;
 	if (octal == T_REG)

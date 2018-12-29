@@ -114,7 +114,7 @@ int						read_bytes(t_vm *vm, int pc, unsigned int n_bytes);
 void					copy_process(t_vm *vm, t_process *ref);
 t_codage				*read_codage(t_vm *vm, t_process *process, int nf);
 void					dump_to_mem(t_process *pr, int len, int val, int idx);
-t_codage				*init_codage();
+t_codage				*init_codage(void);
 int						print_players(t_player *pl);
 int						process_count(t_vm *vm);
 unsigned long			bot_length(char *file);
