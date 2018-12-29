@@ -31,7 +31,8 @@ void	print_intro(t_vm *vm)
 void	dump(t_vm *vm)
 {
 	int	i;
-
+	if (vm->visual_mode)
+		return ;
 	if (vm->cycle == vm->nbr_cycles)
 	{
 		i = 1;
