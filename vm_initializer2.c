@@ -18,7 +18,7 @@ void		add_process(t_vm *vm, int pc, t_player *player)
 	int			i;
 
 	if (((process = ft_memalloc(sizeof(t_process))) == NULL) || \
-		((process->reg = ft_memalloc(REG_NUMBER * sizeof(int))) == NULL))
+		((process->reg = ft_memalloc(sizeof(int) * REG_NUMBER)) == NULL))
 		die("Error: Out of memory!");
 	i = 0;
 	while (i < REG_NUMBER)
@@ -42,7 +42,7 @@ void		copy_process(t_vm *vm, t_process *ref)
 	int			i;
 
 	if (((process = ft_memalloc(sizeof(t_process))) == NULL) || \
-		((process->reg = ft_memalloc(REG_NUMBER * sizeof(int))) == NULL))
+		((process->reg = ft_memalloc(sizeof(int) * REG_NUMBER)) == NULL))
 		die("Error: Out of memory!");
 	i = -1;
 	while (++i < REG_NUMBER)

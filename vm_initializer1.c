@@ -39,7 +39,7 @@ void	create_vm(t_vm **vm)
 	if ((*vm = ft_memalloc(sizeof(t_vm))) == NULL)
 		die("Error: Out of memory!");
 	set_vm_initial_values(*vm);
-	if (((*vm)->mem = ft_memalloc(MEM_SIZE * sizeof(t_map_cell *))) == NULL)
+	if (((*vm)->mem = ft_memalloc(sizeof(t_map_cell *) * MEM_SIZE)) == NULL)
 		die("Error: Out of memory!");
 	i = 0;
 	while (i < MEM_SIZE)
