@@ -24,6 +24,8 @@ int		read_bytes(t_vm *vm, int pc, unsigned int n_bytes)
 		res = res * 16 * 16 + vm->mem[next_pc(pc, i)]->value;
 		i++;
 	}
+	if (n_bytes == 2)
+		res = (short)res;
 	return (res);
 }
 

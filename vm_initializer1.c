@@ -12,28 +12,33 @@
 
 #include "corewarvm.h"
 
+void	set_vm_initial_values(t_vm *vm)
+{
+	vm->cycle = 0;
+	vm->cycle_ = 0;
+	vm->cycle_to_die = CYCLE_TO_DIE;
+	vm->process = NULL;
+	vm->player = NULL;
+	vm->nbr_cycles = -1;
+	vm->checks = MAX_CHECKS;
+	vm->game_on = 1;
+	vm->log = 0;
+	vm->lives = 0;
+	vm->codage = init_codage();
+	vm->c_per_sec = 10;
+	vm->paused = 1;
+	vm->winner = NULL;
+	vm->fps = 50;
+	vm->p_n = 1;
+}
+
 void	create_vm(t_vm **vm)
 {
 	int	i;
 
 	if ((*vm = ft_memalloc(sizeof(t_vm))) == NULL)
 		die("Error: Out of memory!");
-	(*vm)->cycle = 0;
-	(*vm)->cycle_ = 0;
-	(*vm)->cycle_to_die = CYCLE_TO_DIE;
-	(*vm)->process = NULL;
-	(*vm)->player = NULL;
-	(*vm)->nbr_cycles = -1;
-	(*vm)->checks = MAX_CHECKS;
-	(*vm)->game_on = 1;
-	(*vm)->log = 0;
-	(*vm)->lives = 0;
-	(*vm)->codage = init_codage();
-	(*vm)->c_per_sec = 10;
-	(*vm)->paused = 1;
-	(*vm)->winner = NULL;
-	(*vm)->fps = 50;
-	(*vm)->p_n = 1;
+	set_vm_initial_values(*vm);
 	if (((*vm)->mem = ft_memalloc(MEM_SIZE * sizeof(t_map_cell *))) == NULL)
 		die("Error: Out of memory!");
 	i = 0;
@@ -88,64 +93,4 @@ char	*string_from_binary(char *binary, int start, int length)
 	}
 	ret[i] = 0;
 	return (ret);
-}
-
-void	add_player(t_vm *vm, char *file, int idx)
-{
-	t_player	*p;
-	t_player	*tmp;
-
-	if ((p = ft_memalloc(sizeof(t_player))) == NULL)
-		die("Error: Out of memory!");
-	p->size = (int)bot_length(file + (size_t)((PROG_NAME_LENGTH + 4 + hex_len(COREWAR_EXEC_MAGIC)) * 2));
-	p->vm = vm;
-	p->n = -idx;
-	p->name = string_from_binary(file, hex_len(COREWAR_EXEC_MAGIC) * 2, PROG_NAME_LENGTH);
-	p->comment = string_from_binary(file, (hex_len(COREWAR_EXEC_MAGIC) + PROG_NAME_LENGTH + 8) * 2 , COMMENT_LENGTH);
-	file += (size_t)((PROG_NAME_LENGTH + COMMENT_LENGTH + 12 + hex_len(COREWAR_EXEC_MAGIC)) * 2);
-	if ((p->instructions = ft_strdup(file)) == NULL)
-		die("Error: Out of memory!");
-	p->idx = idx;
-	p->lives = 0;
-	p->last_live = 0;
-	p->next = NULL;
-	if (vm->player == NULL)
-		vm->player = p;
-	else
-	{
-		tmp = vm->player;
-		while (tmp->next != NULL)
-		{
-			if ((idx > 0) && (tmp->idx == idx))
-				die("Error: Two players cannot have the same index!");
-			tmp = tmp->next;
-		}
-		tmp->next = p;
-	}
-}
-
-void	create_player(t_vm *vm, char *filename, int *idx)
-{
-	int				fd;
-	char			*tmp;
-	char			*hex;
-	unsigned char	c[1];
-	char			*file;
-
-	if ((fd = open(filename, O_RDONLY, 0)) == -1)
-		die("Error: Cannot open champion file!");
-	if ((file = ft_memalloc(sizeof(char))) == NULL)
-		die("Error: Out of memory!");
-	while (read(fd, c, 1) > 0)
-	{
-		tmp = file;
-		hex = hex_string(c[0]);
-		file = ft_strjoin(file, hex);
-		free(hex);
-		free(tmp);
-	}
-	validate_file(file);
-	add_player(vm, file, *idx);
-	free(file);
-	*idx = -1;
 }

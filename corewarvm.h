@@ -126,6 +126,7 @@ void					decrease_cycle_to_die(t_vm *vm);
 void					die_if_p_index_sucks(t_vm *vm);
 char					*hex_string(unsigned char c);
 void					add_player(t_vm *vm, char *file, int idx);
+char					*string_from_binary(char *binary, int start, int length);
 void					ex_live(t_process *pr);
 void					ex_lfork(t_process *pr);
 void					ex_zjmp(t_process *pr);

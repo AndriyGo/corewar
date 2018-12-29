@@ -89,28 +89,28 @@ void		read_codage_octal(t_codage *codage, int idx, int octal, t_process *pr)
 	codage->type[idx] = octal;
 	if (octal == T_REG)
 	{
-		codage->raw_value[idx] = (unsigned char)read_bytes(pr->vm, next_pc(pr->pc, codage->to_skip), 1) - 1;
-		if ((codage->raw_value[idx] < 0) || (codage->raw_value[idx] > 15))
-			codage->valid = 0;
+		codage->raw_value[idx] = (unsigned char)read_bytes(pr->vm,
+			next_pc(pr->pc, codage->to_skip), 1) - 1;
+		codage->valid = codage->valid && (codage->raw_value[idx] <= 15) && \
+		(codage->raw_value[idx] >= 0);
 		codage->value[idx] = pr->reg[(unsigned char)(codage->raw_value[idx])];
 		codage->to_skip += 1;
 	}
 	else if (octal == 3)
 	{
-		codage->raw_value[idx] = (short)read_bytes(pr->vm, next_pc(pr->pc, codage->to_skip), 2);
-		codage->value[idx] = read_bytes(pr->vm, next_pc(pr->pc, ((short)codage->raw_value[idx]) % IDX_MOD), 4);
+		codage->raw_value[idx] = (short)read_bytes(pr->vm,
+			next_pc(pr->pc, codage->to_skip), 2);
+		codage->value[idx] = read_bytes(pr->vm, next_pc(pr->pc,
+			((short)codage->raw_value[idx]) % IDX_MOD), 4);
 		codage->to_skip += 2;
 	}
 	else if (octal == T_DIR)
 	{
-		codage->value[idx] = read_bytes(pr->vm, next_pc(pr->pc, codage->to_skip), pr->l_size);
-		if (pr->l_size == 2)
-			codage->value[idx] = (short)codage->value[idx];
+		codage->value[idx] = read_bytes(pr->vm,
+			next_pc(pr->pc, codage->to_skip), pr->l_size);
 		codage->raw_value[idx] = codage->value[idx];
 		codage->to_skip += pr->l_size;
 	}
-	else
-		codage->valid = 0;
 }
 
 t_codage	*read_codage(t_vm *vm, t_process *process, int nf)
@@ -123,9 +123,16 @@ t_codage	*read_codage(t_vm *vm, t_process *process, int nf)
 	ret->valid = 1;
 	octal = read_bytes(vm, next_pc(process->pc, 1), 1);
 	read_codage_octal(ret, 0, octal >> 6, process);
+	ret->valid = ret->valid && (ret->type[0] >= 1) && (ret->type[0] <= 3);
 	if (nf > 1)
+	{
 		read_codage_octal(ret, 1, (octal - (octal & (3 << 6))) >> 4, process);
+		ret->valid = ret->valid && (ret->type[1] >= 1) && (ret->type[1] <= 3);
+	}
 	if (nf > 2)
+	{
 		read_codage_octal(ret, 2, (octal - (octal & (15 << 4))) >> 2, process);
+		ret->valid = ret->valid && (ret->type[2] >= 1) && (ret->type[2] <= 3);
+	}
 	return (ret);
 }
